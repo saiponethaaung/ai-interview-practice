@@ -1,0 +1,51 @@
+query GetFiles($getFilesRequest: GetFilesRequest!) {
+  getFiles(getFilesRequest: $getFilesRequest) {
+    data {
+      createdAt
+      errorMessage
+      id
+      url
+      mime
+      name
+      filename
+      resume {
+        fullName
+        firstName
+        middleName
+        lastName
+        email
+        phoneNumber
+        address
+        skills
+        certifications
+        languages
+        summary
+        education {
+          institution
+          degree
+          fieldOfStudy
+          startDate
+          endDate
+          description
+        }
+        experience {
+          company
+          position
+          startDate
+          endDate
+          description
+        }
+      }
+      size
+      status
+      type
+      updatedAt
+    }
+    pagination {
+      limit
+      page
+      total
+      totalPages
+    }
+  }
+}

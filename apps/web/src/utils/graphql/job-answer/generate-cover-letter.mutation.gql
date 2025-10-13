@@ -1,0 +1,17 @@
+mutation GenerateCoverLetter($input: GenerateCoverLetterRequest!) {
+  generateCoverLetter(input: $input) {
+    content {
+      content
+      chats {
+        content
+        role
+      }
+    }
+    createdAt
+    id
+    question
+    jobId
+    type
+    updatedAt
+  }
+}

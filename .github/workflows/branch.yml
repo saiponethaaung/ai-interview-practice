@@ -1,0 +1,19 @@
+name: Branch Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - feat/*
+      - fix/*
+      - hotfix/*
+
+jobs:
+  call-test-workflow:
+    name: Call Test Automation Workflow
+    uses: ./.github/workflows/run-test.yml
+
+  call-lint-workflow:
+    name: Call Lint Automation Workflow
+    uses: ./.github/workflows/run-lint.yml

@@ -1,0 +1,17 @@
+mutation AskQuestionJobAnswer($input: AskQuestionJobAnswerRequest!) {
+  askQuestion(input: $input) {
+    createdAt
+    id
+    jobId
+    question
+    type
+    updatedAt
+    content {
+      content
+      chats {
+        content
+        role
+      }
+    }
+  }
+}

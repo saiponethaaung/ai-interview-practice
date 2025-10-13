@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum JobStatus {
+  OPEN
+  CLOSED
+}
+
+enum JobAnswerType {
+  QUESTIONS
+  COVER_LETTER
+  RESUME
+}
+
+enum FileStatus {
+  UPLOADED
+  PROCESSED
+  ERROR
+  PENDING
+}
+
+enum FileType {
+  RESUME
+  CV
+  COVER_LETTER
+}
+
+// model User {
+//   id String @id @default(uuid(7))
+
+//   email    String @unique
+//   password String
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   @@map("user")
+// }
+
+model File {
+  id String @id @default(uuid(7))
+
+  name         String
+  filename     String
+  size         Int
+  mime         String
+  json         Json?
+  type         FileType
+  status       FileStatus @default(PENDING)
+  errorMessage String?    @map("error_message")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  jobs Job[]
+
+  @@map("file")
+}
+
+model Job {
+  id String @id @default(uuid(7))
+
+  title        String
+  company      String?
+  description  String
+  link         String?
+  skills       Json?
+  resumeFileId String? @map("resume_file_id")
+  resumeFile   File?   @relation(fields: [resumeFileId], references: [id])
+
+  status JobStatus @default(OPEN)
+
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  jobAnswers JobAnswer[]
+
+  @@map("job")
+}
+
+model JobAnswer {
+  id String @id @default(uuid(7))
+
+  jobId String @map("job_id")
+  job   Job    @relation(fields: [jobId], references: [id])
+
+  type     JobAnswerType @map("type")
+  question String?
+  content  Json
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("job_answer")
+}

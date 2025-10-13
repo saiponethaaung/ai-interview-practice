@@ -1,0 +1,18 @@
+query GetJob($getJob: GetJobRequest!) {
+  job(GetJobRequest: $getJob) {
+    createdAt
+    description
+    id
+    company
+    link
+    status
+    title
+    updatedAt
+    skills {
+      description
+      mandatory
+      name
+      technical
+    }
+  }
+}
