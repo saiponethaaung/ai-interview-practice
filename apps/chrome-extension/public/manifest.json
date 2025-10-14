@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Padauk Tech Job Helper",
+  "version": "1.0.0",
+  "description": "A simple loyal extension for your job hunting journey.",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "side_panel": {
+    "default_path": "index.html"
+  },
+  "permissions": ["scripting", "tabs", "sidePanel", "commands"],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "background": {
+    "service_worker": "background.js"
+  }
+}

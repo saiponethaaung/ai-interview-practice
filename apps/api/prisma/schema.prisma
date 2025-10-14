@@ -38,6 +38,34 @@ enum FileType {
   COVER_LETTER
 }
 
+enum InterviewType {
+  TEXT
+  AUDIO
+  VIDEO
+}
+
+enum InterviewStage {
+  GENERAL
+  TECHNICAL
+  HR
+}
+
+enum QuestionType {
+  BEHAVIORAL
+  TECHNICAL
+  SITUATIONAL
+  PERSONAL
+  COMPANY_SPECIFIC
+  ROLE_SPECIFIC
+  MIXED
+}
+
+enum DifficultyLevel {
+  EASY
+  MEDIUM
+  HARD
+}
+
 // model User {
 //   id String @id @default(uuid(7))
 
@@ -83,9 +111,10 @@ model Job {
 
   status JobStatus @default(OPEN)
 
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  jobAnswers JobAnswer[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  jobAnswers     JobAnswer[]
+  mockInterviews MockInterview[]
 
   @@map("job")
 }
@@ -105,3 +134,53 @@ model JobAnswer {
 
   @@map("job_answer")
 }
+
+model MockInterview {
+  id String @id @default(uuid(7))
+
+  jobId String @map("job_id")
+  job   Job    @relation(fields: [jobId], references: [id])
+
+  type         InterviewType   @map("type")
+  stage        InterviewStage  @map("stage")
+  questionType QuestionType    @map("question_type")
+  difficulty   DifficultyLevel @map("difficulty")
+  isArchived   Boolean         @default(false) @map("is_archived")
+  globalPrompt String?         @map("global_prompt")
+
+  archivedAt DateTime? @map("archived_at")
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  // sessions  MockInterviewSession[]
+
+  @@map("mock_interview")
+}
+
+// model MockInterviewSession {
+//   id String @id @default(uuid(7))
+
+//   mockInterviewId String        @map("mock_interview_id")
+//   mockInterview   MockInterview @relation(fields: [mockInterviewId], references: [id])
+
+//   createdAt DateTime                      @default(now())
+//   updatedAt DateTime                      @updatedAt
+//   contents  MockInterviewSessionContent[]
+
+//   @@map("mock_interview_question")
+// }
+
+// model MockInterviewSessionContent {
+//   id String @id @default(uuid(7))
+
+//   mockInterviewSessionId String               @map("mock_interview_session_id")
+//   mockInterviewSession   MockInterviewSession @relation(fields: [mockInterviewSessionId], references: [id])
+
+//   isQuestion  String  @map("is_question")
+//   isCompleted Boolean @default(false) @map("is_completed")
+//   content String?
+
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   @@map("mock_interview_session_content")
+// }
