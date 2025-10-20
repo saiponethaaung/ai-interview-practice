@@ -4,6 +4,9 @@ query GetMockInterviewSessionById($input: GetMockInterviewSessionRequest!) {
     id
     mockInterviewId
     updatedAt
+    isCompleted
+    startedAt
+    completedAt
     questions {
       question
       type

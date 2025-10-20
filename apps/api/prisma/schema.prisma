@@ -162,27 +162,33 @@ model MockInterviewSession {
   mockInterviewId String        @map("mock_interview_id")
   mockInterview   MockInterview @relation(fields: [mockInterviewId], references: [id])
 
-  questions Json
+  questions   Json
+  isCompleted Boolean   @default(false) @map("is_completed")
+  startedAt   DateTime? @map("started_at")
+  completedAt DateTime? @map("completed_at")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  // contents  MockInterviewSessionContent[]
+
+  contents MockInterviewSessionContent[]
 
   @@map("mock_interview_session")
 }
 
-// model MockInterviewSessionContent {
-//   id String @id @default(uuid(7))
+model MockInterviewSessionContent {
+  id String @id @default(uuid(7))
 
-//   mockInterviewSessionId String               @map("mock_interview_session_id")
-//   mockInterviewSession   MockInterviewSession @relation(fields: [mockInterviewSessionId], references: [id])
+  mockInterviewSessionId String               @map("mock_interview_session_id")
+  mockInterviewSession   MockInterviewSession @relation(fields: [mockInterviewSessionId], references: [id])
 
-//   isQuestion  String  @map("is_question")
-//   isCompleted Boolean @default(false) @map("is_completed")
-//   content String?
+  isQuestion  String  @map("is_question")
+  isCompleted Boolean @default(false) @map("is_completed")
+  content     String?
+  feedback    String?
+  score       Int?    @default(0)
 
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-//   @@map("mock_interview_session_content")
-// }
+  @@map("mock_interview_session_content")
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import { Container } from "@mantine/core";
+import { MockInterviewSessionChat } from "@web/components/mock-interview-session/chat/mock-interview-session-chat.component";
 import {
   useGetMockInterviewByIdQuery,
   useGetMockInterviewSessionByIdQuery,
@@ -18,21 +19,33 @@ export default function SessionPage() {
     },
   });
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (data?.getMockInterviewSessionById.isCompleted) {
+    return (
+      <div>
+        <Container style={{ maxWidth: "100%", padding: "20px", flexGrow: 1 }}>
+          <h1>Session Completed</h1>
+          <p>This mock interview session has been completed.</p>
+        </Container>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Container style={{ maxWidth: "100%", padding: "20px", flexGrow: 1 }}>
-        <h1>Session Page</h1>
-        <p>Welcome to the session page for session {session}!</p>
-        {loading && <p>Loading...</p>}
-        {error && <p>Error: {error.message}</p>}
         {data && (
           <div style={{ marginTop: "20px" }}>
-            {data.getMockInterviewSessionById.questions.map((q, index) => (
-              <div key={index} style={{ marginBottom: "20px" }}>
-                <h3>Type: {q.type}</h3>
-                <p>Question: {q.question}</p>
-              </div>
-            ))}
+            <MockInterviewSessionChat
+              questions={data.getMockInterviewSessionById.questions}
+            />
           </div>
         )}
       </Container>

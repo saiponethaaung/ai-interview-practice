@@ -44,6 +44,8 @@ input CreateMockInterviewRequest {
 
 input CreateMockInterviewSessionRequest {
   mockInterviewId: String!
+  numberOfQuestions: Float = 50
+  skillsFocus: Boolean = false
 }
 
 """
@@ -174,10 +176,13 @@ type MockInterviewSessionPaginatedResponse {
 }
 
 type MockInterviewSessionResponse {
+  completedAt: DateTime
   createdAt: DateTime!
   id: String!
+  isCompleted: Boolean!
   mockInterviewId: String!
   questions: [InterviewQuestions!]!
+  startedAt: DateTime
   updatedAt: DateTime!
 }
 

@@ -10,6 +10,8 @@ import { ServiceResponse } from 'src/interfaces/service-response.interface';
 import { MockInterviewSessionResponse } from './dto/response/mock-interview-session.response';
 import { GetMockInterviewSessionsRequest } from './dto/request/get-mock-interview-sessions.request';
 import { GetMockInterviewSessionRequest } from './dto/request/get-mock-interview-session.request';
+import { ModelMessage } from 'ai';
+import { Skill } from '../job/dto/response/job.response';
 
 @Injectable()
 export class MockInterviewSessionService {
@@ -20,6 +22,8 @@ export class MockInterviewSessionService {
 
   async createMockInterview({
     mockInterviewId,
+    numberOfQuestions = 50,
+    skillsFocus = false,
   }: CreateMockInterviewSessionRequest): Promise<
     ServiceResponse<MockInterviewSessionResponse>
   > {
@@ -34,11 +38,9 @@ export class MockInterviewSessionService {
       },
     });
 
-    const aiResponse = await this.ai.generateObject(
-      z.array(
-        z.object({
-          question: z.string(),
-          type: z.enum([
+    const questionType =
+      mockInterview.questionType === 'MIXED'
+        ? [
             'BEHAVIORAL',
             'TECHNICAL',
             'SITUATIONAL',
@@ -46,21 +48,37 @@ export class MockInterviewSessionService {
             'COMPANY_SPECIFIC',
             'ROLE_SPECIFIC',
             'MIXED',
-          ]),
+          ]
+        : [mockInterview.questionType];
+
+    const prompts: ModelMessage[] = [
+      {
+        role: 'system',
+        content: `You are an expert interview question generator. Generate a list of ${numberOfQuestions} interview questions based on the job description and resume provided. The questions should be ${questionType.join(',')} type(s). Format the response as a JSON array with each question having a 'question' and 'type' field. Make sure the questions are relevant to the job description and resume. The difficulty level should be ${mockInterview.difficulty.toLowerCase()} and suitable for the ${mockInterview.stage.toLowerCase()} stage of the interview process and question should be relevant to that stage.`,
+      },
+      {
+        role: 'user',
+        content: `Job Description: ${mockInterview.job.description}\n\nResume: ${JSON.stringify(
+          mockInterview.job.resumeFile?.json || {},
+        )}`,
+      },
+    ];
+
+    if (skillsFocus) {
+      prompts.push({
+        role: 'user',
+        content: `Focus on generating questions that assess following skils ${(mockInterview.job.skills as unknown as Skill[]).map((s) => s.name).join(',')}.`,
+      });
+    }
+
+    const aiResponse = await this.ai.generateObject(
+      z.array(
+        z.object({
+          question: z.string(),
+          type: z.enum(questionType),
         }),
       ),
-      [
-        {
-          role: 'system',
-          content: `You are an expert interview question generator. Generate a list of 50 interview questions based on the job description and resume provided. The questions should be a mix of technical, HR, and managerial types. Format the response as a JSON array with each question having a 'question' and 'type' field.`,
-        },
-        {
-          role: 'user',
-          content: `Job Description: ${mockInterview.job.description}\n\nResume: ${JSON.stringify(
-            mockInterview.job.resumeFile?.json || {},
-          )}`,
-        },
-      ],
+      prompts,
     );
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment

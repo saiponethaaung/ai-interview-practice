@@ -2,7 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { Job, JobStatus } from 'generated/prisma';
 
 @ObjectType()
-class Skill {
+export class Skill {
   @Field()
   name: string;
 

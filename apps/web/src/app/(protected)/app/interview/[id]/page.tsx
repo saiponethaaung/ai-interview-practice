@@ -1,17 +1,18 @@
 "use client";
 
-import { Button } from "@mantine/core";
+import { Button, Card, Flex, Modal } from "@mantine/core";
+import { CreateMockInterviewSessionForm } from "@web/components/mock-interview-session/create-form/create-mock-interview-session-form.component";
 import { MockInterviewSessionTable } from "@web/components/mock-interview-session/table/mock-interview-table.component";
 import {
-  useCreateMockInterviewSessionMutation,
   useGetMockInterviewByIdQuery,
   useGetMockInterviewSessionsQuery,
 } from "@web/utils/graphql/generated/types";
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
+import { useState } from "react";
 
 export default function InterviewPage() {
   const { id } = useParams<{ id: string }>();
+  const [open, setOpen] = useState<boolean>(false);
 
   const { data, loading, error } = useGetMockInterviewByIdQuery({
     variables: {
@@ -34,51 +35,45 @@ export default function InterviewPage() {
     },
   });
 
-  const [createNewSession, { loading: creatingSession, data: newSessionData }] =
-    useCreateMockInterviewSessionMutation({
-      variables: {
-        input: {
-          mockInterviewId: id!,
-        },
-      },
-    });
-
-  const createSession = async () => {
-    if (creatingSession) return;
-    await createNewSession();
-  };
-
-  useEffect(() => {
-    if (newSessionData) {
-      refetch();
-    }
-  }, [newSessionData, refetch]);
-
   return (
-    <div>
-      <h1>Interview Page {id}</h1>
+    <Flex direction="column" gap="md" p="md">
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
       {data && (
-        <div>
+        <Card>
           <p>Interview ID: {data.getMockInterviewById.id}</p>
           <p>Job ID: {data.getMockInterviewById.jobId}</p>
           <p>Type: {data.getMockInterviewById.type}</p>
           <p>Question Type: {data.getMockInterviewById.questionType}</p>
           <p>Stage: {data.getMockInterviewById.stage}</p>
           <p>Difficulty: {data.getMockInterviewById.difficulty}</p>
-        </div>
+        </Card>
       )}
-      <h2>Session List</h2>
-      <Button onClick={createSession} disabled={creatingSession}>
-        Create a new session
-      </Button>
+      <Flex align="center" justify="space-between" gap="md">
+        <h2>Session List</h2>
+        <Button onClick={() => setOpen(true)}>Create a new session</Button>
+        <Modal
+          title="Create Mock Interview Session"
+          opened={open}
+          onClose={() => setOpen(false)}
+        >
+          <CreateMockInterviewSessionForm
+            mockInterviewId={id}
+            callback={(completed: boolean) => {
+              setOpen(false);
+              if (completed) {
+                refetch();
+              }
+            }}
+          />
+        </Modal>
+      </Flex>
       <MockInterviewSessionTable
         mockInterviewId={id}
         loading={sessionsLoading}
         error={sessionsError}
         data={sessionsData}
       />
-    </div>
+    </Flex>
   );
 }

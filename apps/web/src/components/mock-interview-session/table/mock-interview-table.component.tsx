@@ -26,8 +26,10 @@ export function MockInterviewSessionTable({
       <Table.Thead>
         <Table.Tr>
           <Table.Th>ID</Table.Th>
+          <Table.Th>Is Completed</Table.Th>
+          <Table.Th>Started At</Table.Th>
+          <Table.Th>Completed At</Table.Th>
           <Table.Th>Created At</Table.Th>
-          <Table.Th>Updated At</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
@@ -38,8 +40,10 @@ export function MockInterviewSessionTable({
                 {session.id}
               </Link>
             </Table.Td>
+            <Table.Td>{session.isCompleted ? "Yes" : "No"}</Table.Td>
+            <Table.Td>{session.startedAt ?? "-"}</Table.Td>
+            <Table.Td>{session.completedAt ?? "-"}</Table.Td>
             <Table.Td>{session.createdAt}</Table.Td>
-            <Table.Td>{session.updatedAt}</Table.Td>
           </Table.Tr>
         ))}
       </Table.Tbody>

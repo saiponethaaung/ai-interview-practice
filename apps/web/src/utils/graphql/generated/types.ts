@@ -62,6 +62,8 @@ export type CreateMockInterviewRequest = {
 
 export type CreateMockInterviewSessionRequest = {
   mockInterviewId: Scalars['String']['input'];
+  numberOfQuestions?: InputMaybe<Scalars['Float']['input']>;
+  skillsFocus?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type FilePaginatedResponse = {
@@ -197,10 +199,13 @@ export type MockInterviewSessionPaginatedResponse = {
 
 export type MockInterviewSessionResponse = {
   __typename?: 'MockInterviewSessionResponse';
+  completedAt?: Maybe<Scalars['DateTime']['output']>;
   createdAt: Scalars['DateTime']['output'];
   id: Scalars['String']['output'];
+  isCompleted: Scalars['Boolean']['output'];
   mockInterviewId: Scalars['String']['output'];
   questions: Array<InterviewQuestions>;
+  startedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -417,14 +422,14 @@ export type GetMockInterviewSessionByIdQueryVariables = Exact<{
 }>;
 
 
-export type GetMockInterviewSessionByIdQuery = { __typename?: 'Query', getMockInterviewSessionById: { __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, updatedAt: any, questions: Array<{ __typename?: 'InterviewQuestions', question: string, type: string }> } };
+export type GetMockInterviewSessionByIdQuery = { __typename?: 'Query', getMockInterviewSessionById: { __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, updatedAt: any, isCompleted: boolean, startedAt?: any | null, completedAt?: any | null, questions: Array<{ __typename?: 'InterviewQuestions', question: string, type: string }> } };
 
 export type GetMockInterviewSessionsQueryVariables = Exact<{
   input: GetMockInterviewSessionsRequest;
 }>;
 
 
-export type GetMockInterviewSessionsQuery = { __typename?: 'Query', getMockInterviewSessions: { __typename?: 'MockInterviewSessionPaginatedResponse', data: Array<{ __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, updatedAt: any, questions: Array<{ __typename?: 'InterviewQuestions', question: string, type: string }> }>, pagination: { __typename?: 'PaginationResponse', limit: number, page: number, total: number, totalPages: number } } };
+export type GetMockInterviewSessionsQuery = { __typename?: 'Query', getMockInterviewSessions: { __typename?: 'MockInterviewSessionPaginatedResponse', data: Array<{ __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, updatedAt: any, isCompleted: boolean, startedAt?: any | null, completedAt?: any | null, questions: Array<{ __typename?: 'InterviewQuestions', question: string, type: string }> }>, pagination: { __typename?: 'PaginationResponse', limit: number, page: number, total: number, totalPages: number } } };
 
 export type CreateMockInterviewMutationVariables = Exact<{
   input: CreateMockInterviewRequest;
@@ -919,6 +924,9 @@ export const GetMockInterviewSessionByIdDocument = gql`
     id
     mockInterviewId
     updatedAt
+    isCompleted
+    startedAt
+    completedAt
     questions {
       question
       type
@@ -967,6 +975,9 @@ export const GetMockInterviewSessionsDocument = gql`
       id
       mockInterviewId
       updatedAt
+      isCompleted
+      startedAt
+      completedAt
       questions {
         question
         type

@@ -31,8 +31,17 @@ export class MockInterviewSessionResponse {
   @Field()
   mockInterviewId: string;
 
+  @Field()
+  isCompleted: boolean;
+
   @Field(() => [InterviewQuestions])
   questions: InterviewQuestions[];
+
+  @Field({ nullable: true })
+  startedAt?: Date;
+
+  @Field({ nullable: true })
+  completedAt?: Date;
 
   @Field()
   createdAt: Date;
