@@ -33,6 +33,19 @@ input CreateJobRequest {
   title: String!
 }
 
+input CreateMockInterviewRequest {
+  difficulty: String!
+  globalPrompt: String
+  jobId: String!
+  questionType: String!
+  stage: String!
+  type: String!
+}
+
+input CreateMockInterviewSessionRequest {
+  mockInterviewId: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -82,6 +95,35 @@ input GetJobsRequest {
   title: String
 }
 
+input GetMockInterviewRequest {
+  id: String!
+}
+
+input GetMockInterviewSessionRequest {
+  id: String!
+}
+
+input GetMockInterviewSessionsRequest {
+  limit: Float
+  mockInterviewId: String!
+  page: Float
+}
+
+input GetMockInterviewsRequest {
+  difficulty: String
+  jobId: String
+  limit: Float
+  page: Float
+  questionType: String
+  stage: String
+  type: String
+}
+
+type InterviewQuestions {
+  question: String!
+  type: String!
+}
+
 type JobAnswerResponse {
   content: JobContent!
   createdAt: DateTime!
@@ -109,9 +151,41 @@ type JobResponse {
   updatedAt: DateTime!
 }
 
+type MockInterviewPaginatedResponse {
+  data: [MockInterviewResponse!]!
+  pagination: PaginationResponse!
+}
+
+type MockInterviewResponse {
+  createdAt: DateTime!
+  difficulty: String!
+  globalPrompt: String
+  id: String!
+  jobId: String!
+  questionType: String!
+  stage: String!
+  type: String!
+  updatedAt: DateTime!
+}
+
+type MockInterviewSessionPaginatedResponse {
+  data: [MockInterviewSessionResponse!]!
+  pagination: PaginationResponse!
+}
+
+type MockInterviewSessionResponse {
+  createdAt: DateTime!
+  id: String!
+  mockInterviewId: String!
+  questions: [InterviewQuestions!]!
+  updatedAt: DateTime!
+}
+
 type Mutation {
   askQuestion(input: AskQuestionJobAnswerRequest!): JobAnswerResponse!
   createJob(input: CreateJobRequest!): JobResponse!
+  createMockInterview(input: CreateMockInterviewRequest!): MockInterviewResponse!
+  createMockInterviewSession(input: CreateMockInterviewSessionRequest!): MockInterviewSessionResponse!
   createUploadFile(createFileRequest: CreateFileRequest!): CreateFileResponse!
   generateCoverLetter(input: GenerateCoverLetterRequest!): JobAnswerResponse!
 }
@@ -126,6 +200,10 @@ type PaginationResponse {
 type Query {
   getFiles(getFilesRequest: GetFilesRequest!): FilePaginatedResponse!
   getJobAnswers(input: GetJobAnswersRequest!): [JobAnswerResponse!]!
+  getMockInterviewById(input: GetMockInterviewRequest!): MockInterviewResponse!
+  getMockInterviewSessionById(input: GetMockInterviewSessionRequest!): MockInterviewSessionResponse!
+  getMockInterviewSessions(input: GetMockInterviewSessionsRequest!): MockInterviewSessionPaginatedResponse!
+  getMockInterviews(input: GetMockInterviewsRequest!): MockInterviewPaginatedResponse!
   job(GetJobRequest: GetJobRequest!): JobResponse
   jobs(GetJobsRequest: GetJobsRequest!): [JobResponse!]!
 }

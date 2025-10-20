@@ -2,7 +2,7 @@
 
 import { Button, Container, Flex, Modal, Table, Text } from "@mantine/core";
 import FileViewer from "@web/components/file-viewer/file-viewer";
-import UploadFileModal from "@web/components/file/upload-file-modal/upload-file-modal";
+import UploadFileForm from "@web/components/file/upload-file-form/upload-file-form.component";
 import { useGetFilesQuery } from "@web/utils/graphql/generated/types";
 import { useState } from "react";
 
@@ -27,7 +27,7 @@ export default function JobPage() {
               title="Add File"
               onClose={() => setOpenCreateJob(false)}
             >
-              <UploadFileModal closeCallback={() => setOpenCreateJob(false)} />
+              <UploadFileForm closeCallback={() => setOpenCreateJob(false)} />
             </Modal>
           </Flex>
           <Table>

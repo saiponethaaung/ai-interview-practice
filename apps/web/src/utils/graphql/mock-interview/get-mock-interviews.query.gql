@@ -1,0 +1,21 @@
+query GetMockInterviews($input: GetMockInterviewsRequest!) {
+  getMockInterviews(input: $input) {
+    data {
+      createdAt
+      difficulty
+      globalPrompt
+      id
+      jobId
+      questionType
+      stage
+      type
+      updatedAt
+    }
+    pagination {
+      limit
+      page
+      total
+      totalPages
+    }
+  }
+}

@@ -4,19 +4,13 @@ import {
   Flex,
   Group,
   LoadingOverlay,
-  OptionsDropdown,
   Select,
   Text,
   TextInput,
 } from "@mantine/core";
 import { Form, useForm } from "@mantine/form";
 import { IconPhoto, IconUpload, IconX } from "@tabler/icons-react";
-import {
-  Dropzone,
-  IMAGE_MIME_TYPE,
-  MS_WORD_MIME_TYPE,
-  PDF_MIME_TYPE,
-} from "@mantine/dropzone";
+import { Dropzone, IMAGE_MIME_TYPE, PDF_MIME_TYPE } from "@mantine/dropzone";
 import { useCreateUploadFileMutation } from "@web/utils/graphql/generated/types";
 import { useEffect, useState } from "react";
 
@@ -32,7 +26,7 @@ interface IProps {
   closeCallback: () => void;
 }
 
-export default function UploadFileModal({ closeCallback }: IProps) {
+export default function UploadFileForm({ closeCallback }: IProps) {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setIsUploading] = useState<boolean>(false);
 
@@ -162,10 +156,7 @@ export default function UploadFileModal({ closeCallback }: IProps) {
               onReject={(file) => console.log("rejected file", file)}
               maxSize={5 * 1024 ** 2}
               multiple={false}
-              accept={[
-                ...IMAGE_MIME_TYPE,
-                ...PDF_MIME_TYPE,
-              ]}
+              accept={[...IMAGE_MIME_TYPE, ...PDF_MIME_TYPE]}
             >
               <Group
                 justify="center"

@@ -51,6 +51,19 @@ export type CreateJobRequest = {
   title: Scalars['String']['input'];
 };
 
+export type CreateMockInterviewRequest = {
+  difficulty: Scalars['String']['input'];
+  globalPrompt?: InputMaybe<Scalars['String']['input']>;
+  jobId: Scalars['String']['input'];
+  questionType: Scalars['String']['input'];
+  stage: Scalars['String']['input'];
+  type: Scalars['String']['input'];
+};
+
+export type CreateMockInterviewSessionRequest = {
+  mockInterviewId: Scalars['String']['input'];
+};
+
 export type FilePaginatedResponse = {
   __typename?: 'FilePaginatedResponse';
   data: Array<FileResponse>;
@@ -97,6 +110,36 @@ export type GetJobsRequest = {
   title?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type GetMockInterviewRequest = {
+  id: Scalars['String']['input'];
+};
+
+export type GetMockInterviewSessionRequest = {
+  id: Scalars['String']['input'];
+};
+
+export type GetMockInterviewSessionsRequest = {
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  mockInterviewId: Scalars['String']['input'];
+  page?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type GetMockInterviewsRequest = {
+  difficulty?: InputMaybe<Scalars['String']['input']>;
+  jobId?: InputMaybe<Scalars['String']['input']>;
+  limit?: InputMaybe<Scalars['Float']['input']>;
+  page?: InputMaybe<Scalars['Float']['input']>;
+  questionType?: InputMaybe<Scalars['String']['input']>;
+  stage?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type InterviewQuestions = {
+  __typename?: 'InterviewQuestions';
+  question: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+};
+
 export type JobAnswerResponse = {
   __typename?: 'JobAnswerResponse';
   content: JobContent;
@@ -127,10 +170,46 @@ export type JobResponse = {
   updatedAt: Scalars['DateTime']['output'];
 };
 
+export type MockInterviewPaginatedResponse = {
+  __typename?: 'MockInterviewPaginatedResponse';
+  data: Array<MockInterviewResponse>;
+  pagination: PaginationResponse;
+};
+
+export type MockInterviewResponse = {
+  __typename?: 'MockInterviewResponse';
+  createdAt: Scalars['DateTime']['output'];
+  difficulty: Scalars['String']['output'];
+  globalPrompt?: Maybe<Scalars['String']['output']>;
+  id: Scalars['String']['output'];
+  jobId: Scalars['String']['output'];
+  questionType: Scalars['String']['output'];
+  stage: Scalars['String']['output'];
+  type: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
+};
+
+export type MockInterviewSessionPaginatedResponse = {
+  __typename?: 'MockInterviewSessionPaginatedResponse';
+  data: Array<MockInterviewSessionResponse>;
+  pagination: PaginationResponse;
+};
+
+export type MockInterviewSessionResponse = {
+  __typename?: 'MockInterviewSessionResponse';
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['String']['output'];
+  mockInterviewId: Scalars['String']['output'];
+  questions: Array<InterviewQuestions>;
+  updatedAt: Scalars['DateTime']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   askQuestion: JobAnswerResponse;
   createJob: JobResponse;
+  createMockInterview: MockInterviewResponse;
+  createMockInterviewSession: MockInterviewSessionResponse;
   createUploadFile: CreateFileResponse;
   generateCoverLetter: JobAnswerResponse;
 };
@@ -143,6 +222,16 @@ export type MutationAskQuestionArgs = {
 
 export type MutationCreateJobArgs = {
   input: CreateJobRequest;
+};
+
+
+export type MutationCreateMockInterviewArgs = {
+  input: CreateMockInterviewRequest;
+};
+
+
+export type MutationCreateMockInterviewSessionArgs = {
+  input: CreateMockInterviewSessionRequest;
 };
 
 
@@ -167,6 +256,10 @@ export type Query = {
   __typename?: 'Query';
   getFiles: FilePaginatedResponse;
   getJobAnswers: Array<JobAnswerResponse>;
+  getMockInterviewById: MockInterviewResponse;
+  getMockInterviewSessionById: MockInterviewSessionResponse;
+  getMockInterviewSessions: MockInterviewSessionPaginatedResponse;
+  getMockInterviews: MockInterviewPaginatedResponse;
   job?: Maybe<JobResponse>;
   jobs: Array<JobResponse>;
 };
@@ -179,6 +272,26 @@ export type QueryGetFilesArgs = {
 
 export type QueryGetJobAnswersArgs = {
   input: GetJobAnswersRequest;
+};
+
+
+export type QueryGetMockInterviewByIdArgs = {
+  input: GetMockInterviewRequest;
+};
+
+
+export type QueryGetMockInterviewSessionByIdArgs = {
+  input: GetMockInterviewSessionRequest;
+};
+
+
+export type QueryGetMockInterviewSessionsArgs = {
+  input: GetMockInterviewSessionsRequest;
+};
+
+
+export type QueryGetMockInterviewsArgs = {
+  input: GetMockInterviewsRequest;
 };
 
 
@@ -291,6 +404,48 @@ export type GetJobsQueryVariables = Exact<{
 
 
 export type GetJobsQuery = { __typename?: 'Query', jobs: Array<{ __typename?: 'JobResponse', createdAt: any, description?: string | null, id: string, company?: string | null, link: string, status: string, title: string, updatedAt: any, skills: Array<{ __typename?: 'Skill', description: string, mandatory: boolean, name: string, technical: boolean }> }> };
+
+export type CreateMockInterviewSessionMutationVariables = Exact<{
+  input: CreateMockInterviewSessionRequest;
+}>;
+
+
+export type CreateMockInterviewSessionMutation = { __typename?: 'Mutation', createMockInterviewSession: { __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, updatedAt: any, questions: Array<{ __typename?: 'InterviewQuestions', question: string, type: string }> } };
+
+export type GetMockInterviewSessionByIdQueryVariables = Exact<{
+  input: GetMockInterviewSessionRequest;
+}>;
+
+
+export type GetMockInterviewSessionByIdQuery = { __typename?: 'Query', getMockInterviewSessionById: { __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, updatedAt: any, questions: Array<{ __typename?: 'InterviewQuestions', question: string, type: string }> } };
+
+export type GetMockInterviewSessionsQueryVariables = Exact<{
+  input: GetMockInterviewSessionsRequest;
+}>;
+
+
+export type GetMockInterviewSessionsQuery = { __typename?: 'Query', getMockInterviewSessions: { __typename?: 'MockInterviewSessionPaginatedResponse', data: Array<{ __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, updatedAt: any, questions: Array<{ __typename?: 'InterviewQuestions', question: string, type: string }> }>, pagination: { __typename?: 'PaginationResponse', limit: number, page: number, total: number, totalPages: number } } };
+
+export type CreateMockInterviewMutationVariables = Exact<{
+  input: CreateMockInterviewRequest;
+}>;
+
+
+export type CreateMockInterviewMutation = { __typename?: 'Mutation', createMockInterview: { __typename?: 'MockInterviewResponse', createdAt: any, difficulty: string, globalPrompt?: string | null, id: string, jobId: string, questionType: string, stage: string, type: string, updatedAt: any } };
+
+export type GetMockInterviewByIdQueryVariables = Exact<{
+  input: GetMockInterviewRequest;
+}>;
+
+
+export type GetMockInterviewByIdQuery = { __typename?: 'Query', getMockInterviewById: { __typename?: 'MockInterviewResponse', createdAt: any, difficulty: string, globalPrompt?: string | null, id: string, jobId: string, questionType: string, stage: string, type: string, updatedAt: any } };
+
+export type GetMockInterviewsQueryVariables = Exact<{
+  input: GetMockInterviewsRequest;
+}>;
+
+
+export type GetMockInterviewsQuery = { __typename?: 'Query', getMockInterviews: { __typename?: 'MockInterviewPaginatedResponse', data: Array<{ __typename?: 'MockInterviewResponse', createdAt: any, difficulty: string, globalPrompt?: string | null, id: string, jobId: string, questionType: string, stage: string, type: string, updatedAt: any }>, pagination: { __typename?: 'PaginationResponse', limit: number, page: number, total: number, totalPages: number } } };
 
 
 export const CreateUploadFileDocument = gql`
@@ -717,3 +872,290 @@ export type GetJobsQueryHookResult = ReturnType<typeof useGetJobsQuery>;
 export type GetJobsLazyQueryHookResult = ReturnType<typeof useGetJobsLazyQuery>;
 export type GetJobsSuspenseQueryHookResult = ReturnType<typeof useGetJobsSuspenseQuery>;
 export type GetJobsQueryResult = Apollo.QueryResult<GetJobsQuery, GetJobsQueryVariables>;
+export const CreateMockInterviewSessionDocument = gql`
+    mutation CreateMockInterviewSession($input: CreateMockInterviewSessionRequest!) {
+  createMockInterviewSession(input: $input) {
+    createdAt
+    id
+    mockInterviewId
+    questions {
+      question
+      type
+    }
+    updatedAt
+  }
+}
+    `;
+export type CreateMockInterviewSessionMutationFn = Apollo.MutationFunction<CreateMockInterviewSessionMutation, CreateMockInterviewSessionMutationVariables>;
+
+/**
+ * __useCreateMockInterviewSessionMutation__
+ *
+ * To run a mutation, you first call `useCreateMockInterviewSessionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateMockInterviewSessionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createMockInterviewSessionMutation, { data, loading, error }] = useCreateMockInterviewSessionMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateMockInterviewSessionMutation(baseOptions?: Apollo.MutationHookOptions<CreateMockInterviewSessionMutation, CreateMockInterviewSessionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateMockInterviewSessionMutation, CreateMockInterviewSessionMutationVariables>(CreateMockInterviewSessionDocument, options);
+      }
+export type CreateMockInterviewSessionMutationHookResult = ReturnType<typeof useCreateMockInterviewSessionMutation>;
+export type CreateMockInterviewSessionMutationResult = Apollo.MutationResult<CreateMockInterviewSessionMutation>;
+export type CreateMockInterviewSessionMutationOptions = Apollo.BaseMutationOptions<CreateMockInterviewSessionMutation, CreateMockInterviewSessionMutationVariables>;
+export const GetMockInterviewSessionByIdDocument = gql`
+    query GetMockInterviewSessionById($input: GetMockInterviewSessionRequest!) {
+  getMockInterviewSessionById(input: $input) {
+    createdAt
+    id
+    mockInterviewId
+    updatedAt
+    questions {
+      question
+      type
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMockInterviewSessionByIdQuery__
+ *
+ * To run a query within a React component, call `useGetMockInterviewSessionByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMockInterviewSessionByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMockInterviewSessionByIdQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetMockInterviewSessionByIdQuery(baseOptions: Apollo.QueryHookOptions<GetMockInterviewSessionByIdQuery, GetMockInterviewSessionByIdQueryVariables> & ({ variables: GetMockInterviewSessionByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMockInterviewSessionByIdQuery, GetMockInterviewSessionByIdQueryVariables>(GetMockInterviewSessionByIdDocument, options);
+      }
+export function useGetMockInterviewSessionByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMockInterviewSessionByIdQuery, GetMockInterviewSessionByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMockInterviewSessionByIdQuery, GetMockInterviewSessionByIdQueryVariables>(GetMockInterviewSessionByIdDocument, options);
+        }
+export function useGetMockInterviewSessionByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMockInterviewSessionByIdQuery, GetMockInterviewSessionByIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMockInterviewSessionByIdQuery, GetMockInterviewSessionByIdQueryVariables>(GetMockInterviewSessionByIdDocument, options);
+        }
+export type GetMockInterviewSessionByIdQueryHookResult = ReturnType<typeof useGetMockInterviewSessionByIdQuery>;
+export type GetMockInterviewSessionByIdLazyQueryHookResult = ReturnType<typeof useGetMockInterviewSessionByIdLazyQuery>;
+export type GetMockInterviewSessionByIdSuspenseQueryHookResult = ReturnType<typeof useGetMockInterviewSessionByIdSuspenseQuery>;
+export type GetMockInterviewSessionByIdQueryResult = Apollo.QueryResult<GetMockInterviewSessionByIdQuery, GetMockInterviewSessionByIdQueryVariables>;
+export const GetMockInterviewSessionsDocument = gql`
+    query GetMockInterviewSessions($input: GetMockInterviewSessionsRequest!) {
+  getMockInterviewSessions(input: $input) {
+    data {
+      createdAt
+      id
+      mockInterviewId
+      updatedAt
+      questions {
+        question
+        type
+      }
+    }
+    pagination {
+      limit
+      page
+      total
+      totalPages
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMockInterviewSessionsQuery__
+ *
+ * To run a query within a React component, call `useGetMockInterviewSessionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMockInterviewSessionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMockInterviewSessionsQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetMockInterviewSessionsQuery(baseOptions: Apollo.QueryHookOptions<GetMockInterviewSessionsQuery, GetMockInterviewSessionsQueryVariables> & ({ variables: GetMockInterviewSessionsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMockInterviewSessionsQuery, GetMockInterviewSessionsQueryVariables>(GetMockInterviewSessionsDocument, options);
+      }
+export function useGetMockInterviewSessionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMockInterviewSessionsQuery, GetMockInterviewSessionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMockInterviewSessionsQuery, GetMockInterviewSessionsQueryVariables>(GetMockInterviewSessionsDocument, options);
+        }
+export function useGetMockInterviewSessionsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMockInterviewSessionsQuery, GetMockInterviewSessionsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMockInterviewSessionsQuery, GetMockInterviewSessionsQueryVariables>(GetMockInterviewSessionsDocument, options);
+        }
+export type GetMockInterviewSessionsQueryHookResult = ReturnType<typeof useGetMockInterviewSessionsQuery>;
+export type GetMockInterviewSessionsLazyQueryHookResult = ReturnType<typeof useGetMockInterviewSessionsLazyQuery>;
+export type GetMockInterviewSessionsSuspenseQueryHookResult = ReturnType<typeof useGetMockInterviewSessionsSuspenseQuery>;
+export type GetMockInterviewSessionsQueryResult = Apollo.QueryResult<GetMockInterviewSessionsQuery, GetMockInterviewSessionsQueryVariables>;
+export const CreateMockInterviewDocument = gql`
+    mutation CreateMockInterview($input: CreateMockInterviewRequest!) {
+  createMockInterview(input: $input) {
+    createdAt
+    difficulty
+    globalPrompt
+    id
+    jobId
+    questionType
+    stage
+    type
+    updatedAt
+  }
+}
+    `;
+export type CreateMockInterviewMutationFn = Apollo.MutationFunction<CreateMockInterviewMutation, CreateMockInterviewMutationVariables>;
+
+/**
+ * __useCreateMockInterviewMutation__
+ *
+ * To run a mutation, you first call `useCreateMockInterviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateMockInterviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createMockInterviewMutation, { data, loading, error }] = useCreateMockInterviewMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateMockInterviewMutation(baseOptions?: Apollo.MutationHookOptions<CreateMockInterviewMutation, CreateMockInterviewMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateMockInterviewMutation, CreateMockInterviewMutationVariables>(CreateMockInterviewDocument, options);
+      }
+export type CreateMockInterviewMutationHookResult = ReturnType<typeof useCreateMockInterviewMutation>;
+export type CreateMockInterviewMutationResult = Apollo.MutationResult<CreateMockInterviewMutation>;
+export type CreateMockInterviewMutationOptions = Apollo.BaseMutationOptions<CreateMockInterviewMutation, CreateMockInterviewMutationVariables>;
+export const GetMockInterviewByIdDocument = gql`
+    query GetMockInterviewById($input: GetMockInterviewRequest!) {
+  getMockInterviewById(input: $input) {
+    createdAt
+    difficulty
+    globalPrompt
+    id
+    jobId
+    questionType
+    stage
+    type
+    updatedAt
+  }
+}
+    `;
+
+/**
+ * __useGetMockInterviewByIdQuery__
+ *
+ * To run a query within a React component, call `useGetMockInterviewByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMockInterviewByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMockInterviewByIdQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetMockInterviewByIdQuery(baseOptions: Apollo.QueryHookOptions<GetMockInterviewByIdQuery, GetMockInterviewByIdQueryVariables> & ({ variables: GetMockInterviewByIdQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMockInterviewByIdQuery, GetMockInterviewByIdQueryVariables>(GetMockInterviewByIdDocument, options);
+      }
+export function useGetMockInterviewByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMockInterviewByIdQuery, GetMockInterviewByIdQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMockInterviewByIdQuery, GetMockInterviewByIdQueryVariables>(GetMockInterviewByIdDocument, options);
+        }
+export function useGetMockInterviewByIdSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMockInterviewByIdQuery, GetMockInterviewByIdQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMockInterviewByIdQuery, GetMockInterviewByIdQueryVariables>(GetMockInterviewByIdDocument, options);
+        }
+export type GetMockInterviewByIdQueryHookResult = ReturnType<typeof useGetMockInterviewByIdQuery>;
+export type GetMockInterviewByIdLazyQueryHookResult = ReturnType<typeof useGetMockInterviewByIdLazyQuery>;
+export type GetMockInterviewByIdSuspenseQueryHookResult = ReturnType<typeof useGetMockInterviewByIdSuspenseQuery>;
+export type GetMockInterviewByIdQueryResult = Apollo.QueryResult<GetMockInterviewByIdQuery, GetMockInterviewByIdQueryVariables>;
+export const GetMockInterviewsDocument = gql`
+    query GetMockInterviews($input: GetMockInterviewsRequest!) {
+  getMockInterviews(input: $input) {
+    data {
+      createdAt
+      difficulty
+      globalPrompt
+      id
+      jobId
+      questionType
+      stage
+      type
+      updatedAt
+    }
+    pagination {
+      limit
+      page
+      total
+      totalPages
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMockInterviewsQuery__
+ *
+ * To run a query within a React component, call `useGetMockInterviewsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMockInterviewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMockInterviewsQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetMockInterviewsQuery(baseOptions: Apollo.QueryHookOptions<GetMockInterviewsQuery, GetMockInterviewsQueryVariables> & ({ variables: GetMockInterviewsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMockInterviewsQuery, GetMockInterviewsQueryVariables>(GetMockInterviewsDocument, options);
+      }
+export function useGetMockInterviewsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMockInterviewsQuery, GetMockInterviewsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMockInterviewsQuery, GetMockInterviewsQueryVariables>(GetMockInterviewsDocument, options);
+        }
+export function useGetMockInterviewsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMockInterviewsQuery, GetMockInterviewsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMockInterviewsQuery, GetMockInterviewsQueryVariables>(GetMockInterviewsDocument, options);
+        }
+export type GetMockInterviewsQueryHookResult = ReturnType<typeof useGetMockInterviewsQuery>;
+export type GetMockInterviewsLazyQueryHookResult = ReturnType<typeof useGetMockInterviewsLazyQuery>;
+export type GetMockInterviewsSuspenseQueryHookResult = ReturnType<typeof useGetMockInterviewsSuspenseQuery>;
+export type GetMockInterviewsQueryResult = Apollo.QueryResult<GetMockInterviewsQuery, GetMockInterviewsQueryVariables>;

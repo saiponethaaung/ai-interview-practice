@@ -148,26 +148,28 @@ model MockInterview {
   isArchived   Boolean         @default(false) @map("is_archived")
   globalPrompt String?         @map("global_prompt")
 
-  archivedAt DateTime? @map("archived_at")
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  // sessions  MockInterviewSession[]
+  archivedAt DateTime?              @map("archived_at")
+  createdAt  DateTime               @default(now())
+  updatedAt  DateTime               @updatedAt
+  sessions   MockInterviewSession[]
 
   @@map("mock_interview")
 }
 
-// model MockInterviewSession {
-//   id String @id @default(uuid(7))
+model MockInterviewSession {
+  id String @id @default(uuid(7))
 
-//   mockInterviewId String        @map("mock_interview_id")
-//   mockInterview   MockInterview @relation(fields: [mockInterviewId], references: [id])
+  mockInterviewId String        @map("mock_interview_id")
+  mockInterview   MockInterview @relation(fields: [mockInterviewId], references: [id])
 
-//   createdAt DateTime                      @default(now())
-//   updatedAt DateTime                      @updatedAt
-//   contents  MockInterviewSessionContent[]
+  questions Json
 
-//   @@map("mock_interview_question")
-// }
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // contents  MockInterviewSessionContent[]
+
+  @@map("mock_interview_session")
+}
 
 // model MockInterviewSessionContent {
 //   id String @id @default(uuid(7))
