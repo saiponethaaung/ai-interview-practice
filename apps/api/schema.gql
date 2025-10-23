@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AnswerMockInterviewSessionQuestionRequest {
+  answer: String!
+  mockInterviewSessionQuestionId: String!
+}
+
 input AskQuestionJobAnswerRequest {
   jobId: String!
   question: String!
@@ -53,6 +58,10 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+input EndMockInterviewSessionRequest {
+  mockInterviewSessionId: String!
+}
+
 type FilePaginatedResponse {
   data: [FileResponse!]!
   pagination: PaginationResponse!
@@ -101,6 +110,10 @@ input GetMockInterviewRequest {
   id: String!
 }
 
+input GetMockInterviewSessionQuestionRequest {
+  mockInterviewSessionId: String!
+}
+
 input GetMockInterviewSessionRequest {
   id: String!
 }
@@ -119,11 +132,6 @@ input GetMockInterviewsRequest {
   questionType: String
   stage: String
   type: String
-}
-
-type InterviewQuestions {
-  question: String!
-  type: String!
 }
 
 type JobAnswerResponse {
@@ -175,24 +183,38 @@ type MockInterviewSessionPaginatedResponse {
   pagination: PaginationResponse!
 }
 
+type MockInterviewSessionQuestionResponse {
+  endTime: DateTime
+  id: String!
+  mockInterviewSessionId: String!
+  question: String!
+  startTime: DateTime
+  type: String!
+}
+
 type MockInterviewSessionResponse {
   completedAt: DateTime
   createdAt: DateTime!
   id: String!
   isCompleted: Boolean!
   mockInterviewId: String!
-  questions: [InterviewQuestions!]!
+  numberOfQuestions: Float!
+  skillFocus: Boolean!
   startedAt: DateTime
   updatedAt: DateTime!
 }
 
 type Mutation {
+  answerMockInterviewSessionQuestion(input: AnswerMockInterviewSessionQuestionRequest!): Boolean!
   askQuestion(input: AskQuestionJobAnswerRequest!): JobAnswerResponse!
   createJob(input: CreateJobRequest!): JobResponse!
   createMockInterview(input: CreateMockInterviewRequest!): MockInterviewResponse!
   createMockInterviewSession(input: CreateMockInterviewSessionRequest!): MockInterviewSessionResponse!
   createUploadFile(createFileRequest: CreateFileRequest!): CreateFileResponse!
+  endMockInterviewSession(input: EndMockInterviewSessionRequest!): Boolean!
   generateCoverLetter(input: GenerateCoverLetterRequest!): JobAnswerResponse!
+  startMockInterviewSession(input: StartMockInterviewSessionRequest!): Boolean!
+  startMockInterviewSessionQuestion(input: StartMockInterviewSessionQuestionRequest!): Boolean!
 }
 
 type PaginationResponse {
@@ -207,6 +229,7 @@ type Query {
   getJobAnswers(input: GetJobAnswersRequest!): [JobAnswerResponse!]!
   getMockInterviewById(input: GetMockInterviewRequest!): MockInterviewResponse!
   getMockInterviewSessionById(input: GetMockInterviewSessionRequest!): MockInterviewSessionResponse!
+  getMockInterviewSessionQuestions(input: GetMockInterviewSessionQuestionRequest!): [MockInterviewSessionQuestionResponse!]!
   getMockInterviewSessions(input: GetMockInterviewSessionsRequest!): MockInterviewSessionPaginatedResponse!
   getMockInterviews(input: GetMockInterviewsRequest!): MockInterviewPaginatedResponse!
   job(GetJobRequest: GetJobRequest!): JobResponse
@@ -252,4 +275,12 @@ type Skill {
   mandatory: Boolean!
   name: String!
   technical: Boolean!
+}
+
+input StartMockInterviewSessionQuestionRequest {
+  mockInterviewSessionQuestionId: String!
+}
+
+input StartMockInterviewSessionRequest {
+  mockInterviewSessionId: String!
 }

@@ -13,4 +13,5 @@ onlyBuiltDependencies:
   - esbuild
   - prisma
   - sharp
+  - spawn-sync
   - unrs-resolver

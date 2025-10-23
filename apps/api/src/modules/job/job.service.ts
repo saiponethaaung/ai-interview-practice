@@ -20,11 +20,7 @@ export class JobService {
     });
   }
 
-  async getJobs({
-    page = 1,
-    limit = 10,
-    ...dto
-  }: GetJobsRequest): Promise<Job[]> {
+  async getJobs({ page = 1, limit = 10 }: GetJobsRequest): Promise<Job[]> {
     const skip = (page - 1) * limit;
 
     return this.prisma.job.findMany({
@@ -75,7 +71,7 @@ export class JobService {
         {
           role: 'system',
           content:
-            "You are a helpful assistant that helps to extract skill from job description.",
+            'You are a helpful assistant that helps to extract skill from job description.',
         },
         {
           role: 'user',

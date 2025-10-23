@@ -4,6 +4,18 @@
 
 # How to Setup
 
+Before running project, make sure you have 
+- pnpm
+- ollama with mistral(if you gonna used locally host LLM)
+- correct node version
+- all .env are populated
+- gemini api key is required for file processing at the moment
+- go to apps/api
+- run `pnpm db:generate & pnpm db:migrate`
+
+To run the project, just run
+- run `pnpm dev` at root 
+
 ## Tech Spec
 - Nestjs
 - Nextjs

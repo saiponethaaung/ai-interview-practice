@@ -5,10 +5,11 @@ mutation CreateMockInterviewSession(
     createdAt
     id
     mockInterviewId
-    questions {
-      question
-      type
-    }
+    numberOfQuestions
+    skillFocus
     updatedAt
+    isCompleted
+    startedAt
+    completedAt
   }
 }

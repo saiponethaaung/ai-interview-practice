@@ -39,7 +39,14 @@ export default function JobPage() {
               title="Add Job"
               onClose={() => setOpenCreateJob(false)}
             >
-              <CreateJobModal closeCallback={() => setOpenCreateJob(false)} />
+              <CreateJobModal
+                closeCallback={(completed) => {
+                  setOpenCreateJob(false);
+                  if (completed) {
+                    refetch();
+                  }
+                }}
+              />
             </Modal>
           </Flex>
           <Table>

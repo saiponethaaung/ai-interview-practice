@@ -3,13 +3,11 @@ query GetMockInterviewSessionById($input: GetMockInterviewSessionRequest!) {
     createdAt
     id
     mockInterviewId
+    numberOfQuestions
+    skillFocus
     updatedAt
     isCompleted
     startedAt
     completedAt
-    questions {
-      question
-      type
-    }
   }
 }

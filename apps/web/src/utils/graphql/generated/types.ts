@@ -18,6 +18,11 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
 };
 
+export type AnswerMockInterviewSessionQuestionRequest = {
+  answer: Scalars['String']['input'];
+  mockInterviewSessionQuestionId: Scalars['String']['input'];
+};
+
 export type AskQuestionJobAnswerRequest = {
   jobId: Scalars['String']['input'];
   question: Scalars['String']['input'];
@@ -64,6 +69,10 @@ export type CreateMockInterviewSessionRequest = {
   mockInterviewId: Scalars['String']['input'];
   numberOfQuestions?: InputMaybe<Scalars['Float']['input']>;
   skillsFocus?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type EndMockInterviewSessionRequest = {
+  mockInterviewSessionId: Scalars['String']['input'];
 };
 
 export type FilePaginatedResponse = {
@@ -116,6 +125,10 @@ export type GetMockInterviewRequest = {
   id: Scalars['String']['input'];
 };
 
+export type GetMockInterviewSessionQuestionRequest = {
+  mockInterviewSessionId: Scalars['String']['input'];
+};
+
 export type GetMockInterviewSessionRequest = {
   id: Scalars['String']['input'];
 };
@@ -134,12 +147,6 @@ export type GetMockInterviewsRequest = {
   questionType?: InputMaybe<Scalars['String']['input']>;
   stage?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type InterviewQuestions = {
-  __typename?: 'InterviewQuestions';
-  question: Scalars['String']['output'];
-  type: Scalars['String']['output'];
 };
 
 export type JobAnswerResponse = {
@@ -197,6 +204,16 @@ export type MockInterviewSessionPaginatedResponse = {
   pagination: PaginationResponse;
 };
 
+export type MockInterviewSessionQuestionResponse = {
+  __typename?: 'MockInterviewSessionQuestionResponse';
+  endTime?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['String']['output'];
+  mockInterviewSessionId: Scalars['String']['output'];
+  question: Scalars['String']['output'];
+  startTime?: Maybe<Scalars['DateTime']['output']>;
+  type: Scalars['String']['output'];
+};
+
 export type MockInterviewSessionResponse = {
   __typename?: 'MockInterviewSessionResponse';
   completedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -204,19 +221,29 @@ export type MockInterviewSessionResponse = {
   id: Scalars['String']['output'];
   isCompleted: Scalars['Boolean']['output'];
   mockInterviewId: Scalars['String']['output'];
-  questions: Array<InterviewQuestions>;
+  numberOfQuestions: Scalars['Float']['output'];
+  skillFocus: Scalars['Boolean']['output'];
   startedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedAt: Scalars['DateTime']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  answerMockInterviewSessionQuestion: Scalars['Boolean']['output'];
   askQuestion: JobAnswerResponse;
   createJob: JobResponse;
   createMockInterview: MockInterviewResponse;
   createMockInterviewSession: MockInterviewSessionResponse;
   createUploadFile: CreateFileResponse;
+  endMockInterviewSession: Scalars['Boolean']['output'];
   generateCoverLetter: JobAnswerResponse;
+  startMockInterviewSession: Scalars['Boolean']['output'];
+  startMockInterviewSessionQuestion: Scalars['Boolean']['output'];
+};
+
+
+export type MutationAnswerMockInterviewSessionQuestionArgs = {
+  input: AnswerMockInterviewSessionQuestionRequest;
 };
 
 
@@ -245,8 +272,23 @@ export type MutationCreateUploadFileArgs = {
 };
 
 
+export type MutationEndMockInterviewSessionArgs = {
+  input: EndMockInterviewSessionRequest;
+};
+
+
 export type MutationGenerateCoverLetterArgs = {
   input: GenerateCoverLetterRequest;
+};
+
+
+export type MutationStartMockInterviewSessionArgs = {
+  input: StartMockInterviewSessionRequest;
+};
+
+
+export type MutationStartMockInterviewSessionQuestionArgs = {
+  input: StartMockInterviewSessionQuestionRequest;
 };
 
 export type PaginationResponse = {
@@ -263,6 +305,7 @@ export type Query = {
   getJobAnswers: Array<JobAnswerResponse>;
   getMockInterviewById: MockInterviewResponse;
   getMockInterviewSessionById: MockInterviewSessionResponse;
+  getMockInterviewSessionQuestions: Array<MockInterviewSessionQuestionResponse>;
   getMockInterviewSessions: MockInterviewSessionPaginatedResponse;
   getMockInterviews: MockInterviewPaginatedResponse;
   job?: Maybe<JobResponse>;
@@ -287,6 +330,11 @@ export type QueryGetMockInterviewByIdArgs = {
 
 export type QueryGetMockInterviewSessionByIdArgs = {
   input: GetMockInterviewSessionRequest;
+};
+
+
+export type QueryGetMockInterviewSessionQuestionsArgs = {
+  input: GetMockInterviewSessionQuestionRequest;
 };
 
 
@@ -354,6 +402,14 @@ export type Skill = {
   technical: Scalars['Boolean']['output'];
 };
 
+export type StartMockInterviewSessionQuestionRequest = {
+  mockInterviewSessionQuestionId: Scalars['String']['input'];
+};
+
+export type StartMockInterviewSessionRequest = {
+  mockInterviewSessionId: Scalars['String']['input'];
+};
+
 export type CreateUploadFileMutationVariables = Exact<{
   createFileRequest: CreateFileRequest;
 }>;
@@ -410,26 +466,61 @@ export type GetJobsQueryVariables = Exact<{
 
 export type GetJobsQuery = { __typename?: 'Query', jobs: Array<{ __typename?: 'JobResponse', createdAt: any, description?: string | null, id: string, company?: string | null, link: string, status: string, title: string, updatedAt: any, skills: Array<{ __typename?: 'Skill', description: string, mandatory: boolean, name: string, technical: boolean }> }> };
 
+export type AnswerMockInterviewSessionQuestionMutationVariables = Exact<{
+  input: AnswerMockInterviewSessionQuestionRequest;
+}>;
+
+
+export type AnswerMockInterviewSessionQuestionMutation = { __typename?: 'Mutation', answerMockInterviewSessionQuestion: boolean };
+
+export type GetMockInterviewSessionQuestionsQueryVariables = Exact<{
+  input: GetMockInterviewSessionQuestionRequest;
+}>;
+
+
+export type GetMockInterviewSessionQuestionsQuery = { __typename?: 'Query', getMockInterviewSessionQuestions: Array<{ __typename?: 'MockInterviewSessionQuestionResponse', endTime?: any | null, id: string, mockInterviewSessionId: string, question: string, startTime?: any | null, type: string }> };
+
+export type StartMockInterviewSessionQuestionMutationVariables = Exact<{
+  input: StartMockInterviewSessionQuestionRequest;
+}>;
+
+
+export type StartMockInterviewSessionQuestionMutation = { __typename?: 'Mutation', startMockInterviewSessionQuestion: boolean };
+
 export type CreateMockInterviewSessionMutationVariables = Exact<{
   input: CreateMockInterviewSessionRequest;
 }>;
 
 
-export type CreateMockInterviewSessionMutation = { __typename?: 'Mutation', createMockInterviewSession: { __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, updatedAt: any, questions: Array<{ __typename?: 'InterviewQuestions', question: string, type: string }> } };
+export type CreateMockInterviewSessionMutation = { __typename?: 'Mutation', createMockInterviewSession: { __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, numberOfQuestions: number, skillFocus: boolean, updatedAt: any, isCompleted: boolean, startedAt?: any | null, completedAt?: any | null } };
+
+export type EndMockInterviewSessionMutationVariables = Exact<{
+  input: EndMockInterviewSessionRequest;
+}>;
+
+
+export type EndMockInterviewSessionMutation = { __typename?: 'Mutation', endMockInterviewSession: boolean };
 
 export type GetMockInterviewSessionByIdQueryVariables = Exact<{
   input: GetMockInterviewSessionRequest;
 }>;
 
 
-export type GetMockInterviewSessionByIdQuery = { __typename?: 'Query', getMockInterviewSessionById: { __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, updatedAt: any, isCompleted: boolean, startedAt?: any | null, completedAt?: any | null, questions: Array<{ __typename?: 'InterviewQuestions', question: string, type: string }> } };
+export type GetMockInterviewSessionByIdQuery = { __typename?: 'Query', getMockInterviewSessionById: { __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, numberOfQuestions: number, skillFocus: boolean, updatedAt: any, isCompleted: boolean, startedAt?: any | null, completedAt?: any | null } };
 
 export type GetMockInterviewSessionsQueryVariables = Exact<{
   input: GetMockInterviewSessionsRequest;
 }>;
 
 
-export type GetMockInterviewSessionsQuery = { __typename?: 'Query', getMockInterviewSessions: { __typename?: 'MockInterviewSessionPaginatedResponse', data: Array<{ __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, updatedAt: any, isCompleted: boolean, startedAt?: any | null, completedAt?: any | null, questions: Array<{ __typename?: 'InterviewQuestions', question: string, type: string }> }>, pagination: { __typename?: 'PaginationResponse', limit: number, page: number, total: number, totalPages: number } } };
+export type GetMockInterviewSessionsQuery = { __typename?: 'Query', getMockInterviewSessions: { __typename?: 'MockInterviewSessionPaginatedResponse', data: Array<{ __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, numberOfQuestions: number, skillFocus: boolean, updatedAt: any, isCompleted: boolean, startedAt?: any | null, completedAt?: any | null }>, pagination: { __typename?: 'PaginationResponse', limit: number, page: number, total: number, totalPages: number } } };
+
+export type StartMockInterviewSessionMutationVariables = Exact<{
+  input: StartMockInterviewSessionRequest;
+}>;
+
+
+export type StartMockInterviewSessionMutation = { __typename?: 'Mutation', startMockInterviewSession: boolean };
 
 export type CreateMockInterviewMutationVariables = Exact<{
   input: CreateMockInterviewRequest;
@@ -877,17 +968,125 @@ export type GetJobsQueryHookResult = ReturnType<typeof useGetJobsQuery>;
 export type GetJobsLazyQueryHookResult = ReturnType<typeof useGetJobsLazyQuery>;
 export type GetJobsSuspenseQueryHookResult = ReturnType<typeof useGetJobsSuspenseQuery>;
 export type GetJobsQueryResult = Apollo.QueryResult<GetJobsQuery, GetJobsQueryVariables>;
+export const AnswerMockInterviewSessionQuestionDocument = gql`
+    mutation AnswerMockInterviewSessionQuestion($input: AnswerMockInterviewSessionQuestionRequest!) {
+  answerMockInterviewSessionQuestion(input: $input)
+}
+    `;
+export type AnswerMockInterviewSessionQuestionMutationFn = Apollo.MutationFunction<AnswerMockInterviewSessionQuestionMutation, AnswerMockInterviewSessionQuestionMutationVariables>;
+
+/**
+ * __useAnswerMockInterviewSessionQuestionMutation__
+ *
+ * To run a mutation, you first call `useAnswerMockInterviewSessionQuestionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAnswerMockInterviewSessionQuestionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [answerMockInterviewSessionQuestionMutation, { data, loading, error }] = useAnswerMockInterviewSessionQuestionMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAnswerMockInterviewSessionQuestionMutation(baseOptions?: Apollo.MutationHookOptions<AnswerMockInterviewSessionQuestionMutation, AnswerMockInterviewSessionQuestionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AnswerMockInterviewSessionQuestionMutation, AnswerMockInterviewSessionQuestionMutationVariables>(AnswerMockInterviewSessionQuestionDocument, options);
+      }
+export type AnswerMockInterviewSessionQuestionMutationHookResult = ReturnType<typeof useAnswerMockInterviewSessionQuestionMutation>;
+export type AnswerMockInterviewSessionQuestionMutationResult = Apollo.MutationResult<AnswerMockInterviewSessionQuestionMutation>;
+export type AnswerMockInterviewSessionQuestionMutationOptions = Apollo.BaseMutationOptions<AnswerMockInterviewSessionQuestionMutation, AnswerMockInterviewSessionQuestionMutationVariables>;
+export const GetMockInterviewSessionQuestionsDocument = gql`
+    query GetMockInterviewSessionQuestions($input: GetMockInterviewSessionQuestionRequest!) {
+  getMockInterviewSessionQuestions(input: $input) {
+    endTime
+    id
+    mockInterviewSessionId
+    question
+    startTime
+    type
+  }
+}
+    `;
+
+/**
+ * __useGetMockInterviewSessionQuestionsQuery__
+ *
+ * To run a query within a React component, call `useGetMockInterviewSessionQuestionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMockInterviewSessionQuestionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMockInterviewSessionQuestionsQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGetMockInterviewSessionQuestionsQuery(baseOptions: Apollo.QueryHookOptions<GetMockInterviewSessionQuestionsQuery, GetMockInterviewSessionQuestionsQueryVariables> & ({ variables: GetMockInterviewSessionQuestionsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMockInterviewSessionQuestionsQuery, GetMockInterviewSessionQuestionsQueryVariables>(GetMockInterviewSessionQuestionsDocument, options);
+      }
+export function useGetMockInterviewSessionQuestionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMockInterviewSessionQuestionsQuery, GetMockInterviewSessionQuestionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMockInterviewSessionQuestionsQuery, GetMockInterviewSessionQuestionsQueryVariables>(GetMockInterviewSessionQuestionsDocument, options);
+        }
+export function useGetMockInterviewSessionQuestionsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetMockInterviewSessionQuestionsQuery, GetMockInterviewSessionQuestionsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMockInterviewSessionQuestionsQuery, GetMockInterviewSessionQuestionsQueryVariables>(GetMockInterviewSessionQuestionsDocument, options);
+        }
+export type GetMockInterviewSessionQuestionsQueryHookResult = ReturnType<typeof useGetMockInterviewSessionQuestionsQuery>;
+export type GetMockInterviewSessionQuestionsLazyQueryHookResult = ReturnType<typeof useGetMockInterviewSessionQuestionsLazyQuery>;
+export type GetMockInterviewSessionQuestionsSuspenseQueryHookResult = ReturnType<typeof useGetMockInterviewSessionQuestionsSuspenseQuery>;
+export type GetMockInterviewSessionQuestionsQueryResult = Apollo.QueryResult<GetMockInterviewSessionQuestionsQuery, GetMockInterviewSessionQuestionsQueryVariables>;
+export const StartMockInterviewSessionQuestionDocument = gql`
+    mutation StartMockInterviewSessionQuestion($input: StartMockInterviewSessionQuestionRequest!) {
+  startMockInterviewSessionQuestion(input: $input)
+}
+    `;
+export type StartMockInterviewSessionQuestionMutationFn = Apollo.MutationFunction<StartMockInterviewSessionQuestionMutation, StartMockInterviewSessionQuestionMutationVariables>;
+
+/**
+ * __useStartMockInterviewSessionQuestionMutation__
+ *
+ * To run a mutation, you first call `useStartMockInterviewSessionQuestionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useStartMockInterviewSessionQuestionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [startMockInterviewSessionQuestionMutation, { data, loading, error }] = useStartMockInterviewSessionQuestionMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useStartMockInterviewSessionQuestionMutation(baseOptions?: Apollo.MutationHookOptions<StartMockInterviewSessionQuestionMutation, StartMockInterviewSessionQuestionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<StartMockInterviewSessionQuestionMutation, StartMockInterviewSessionQuestionMutationVariables>(StartMockInterviewSessionQuestionDocument, options);
+      }
+export type StartMockInterviewSessionQuestionMutationHookResult = ReturnType<typeof useStartMockInterviewSessionQuestionMutation>;
+export type StartMockInterviewSessionQuestionMutationResult = Apollo.MutationResult<StartMockInterviewSessionQuestionMutation>;
+export type StartMockInterviewSessionQuestionMutationOptions = Apollo.BaseMutationOptions<StartMockInterviewSessionQuestionMutation, StartMockInterviewSessionQuestionMutationVariables>;
 export const CreateMockInterviewSessionDocument = gql`
     mutation CreateMockInterviewSession($input: CreateMockInterviewSessionRequest!) {
   createMockInterviewSession(input: $input) {
     createdAt
     id
     mockInterviewId
-    questions {
-      question
-      type
-    }
+    numberOfQuestions
+    skillFocus
     updatedAt
+    isCompleted
+    startedAt
+    completedAt
   }
 }
     `;
@@ -917,20 +1116,49 @@ export function useCreateMockInterviewSessionMutation(baseOptions?: Apollo.Mutat
 export type CreateMockInterviewSessionMutationHookResult = ReturnType<typeof useCreateMockInterviewSessionMutation>;
 export type CreateMockInterviewSessionMutationResult = Apollo.MutationResult<CreateMockInterviewSessionMutation>;
 export type CreateMockInterviewSessionMutationOptions = Apollo.BaseMutationOptions<CreateMockInterviewSessionMutation, CreateMockInterviewSessionMutationVariables>;
+export const EndMockInterviewSessionDocument = gql`
+    mutation EndMockInterviewSession($input: EndMockInterviewSessionRequest!) {
+  endMockInterviewSession(input: $input)
+}
+    `;
+export type EndMockInterviewSessionMutationFn = Apollo.MutationFunction<EndMockInterviewSessionMutation, EndMockInterviewSessionMutationVariables>;
+
+/**
+ * __useEndMockInterviewSessionMutation__
+ *
+ * To run a mutation, you first call `useEndMockInterviewSessionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEndMockInterviewSessionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [endMockInterviewSessionMutation, { data, loading, error }] = useEndMockInterviewSessionMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useEndMockInterviewSessionMutation(baseOptions?: Apollo.MutationHookOptions<EndMockInterviewSessionMutation, EndMockInterviewSessionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EndMockInterviewSessionMutation, EndMockInterviewSessionMutationVariables>(EndMockInterviewSessionDocument, options);
+      }
+export type EndMockInterviewSessionMutationHookResult = ReturnType<typeof useEndMockInterviewSessionMutation>;
+export type EndMockInterviewSessionMutationResult = Apollo.MutationResult<EndMockInterviewSessionMutation>;
+export type EndMockInterviewSessionMutationOptions = Apollo.BaseMutationOptions<EndMockInterviewSessionMutation, EndMockInterviewSessionMutationVariables>;
 export const GetMockInterviewSessionByIdDocument = gql`
     query GetMockInterviewSessionById($input: GetMockInterviewSessionRequest!) {
   getMockInterviewSessionById(input: $input) {
     createdAt
     id
     mockInterviewId
+    numberOfQuestions
+    skillFocus
     updatedAt
     isCompleted
     startedAt
     completedAt
-    questions {
-      question
-      type
-    }
   }
 }
     `;
@@ -974,14 +1202,12 @@ export const GetMockInterviewSessionsDocument = gql`
       createdAt
       id
       mockInterviewId
+      numberOfQuestions
+      skillFocus
       updatedAt
       isCompleted
       startedAt
       completedAt
-      questions {
-        question
-        type
-      }
     }
     pagination {
       limit
@@ -1025,6 +1251,37 @@ export type GetMockInterviewSessionsQueryHookResult = ReturnType<typeof useGetMo
 export type GetMockInterviewSessionsLazyQueryHookResult = ReturnType<typeof useGetMockInterviewSessionsLazyQuery>;
 export type GetMockInterviewSessionsSuspenseQueryHookResult = ReturnType<typeof useGetMockInterviewSessionsSuspenseQuery>;
 export type GetMockInterviewSessionsQueryResult = Apollo.QueryResult<GetMockInterviewSessionsQuery, GetMockInterviewSessionsQueryVariables>;
+export const StartMockInterviewSessionDocument = gql`
+    mutation StartMockInterviewSession($input: StartMockInterviewSessionRequest!) {
+  startMockInterviewSession(input: $input)
+}
+    `;
+export type StartMockInterviewSessionMutationFn = Apollo.MutationFunction<StartMockInterviewSessionMutation, StartMockInterviewSessionMutationVariables>;
+
+/**
+ * __useStartMockInterviewSessionMutation__
+ *
+ * To run a mutation, you first call `useStartMockInterviewSessionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useStartMockInterviewSessionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [startMockInterviewSessionMutation, { data, loading, error }] = useStartMockInterviewSessionMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useStartMockInterviewSessionMutation(baseOptions?: Apollo.MutationHookOptions<StartMockInterviewSessionMutation, StartMockInterviewSessionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<StartMockInterviewSessionMutation, StartMockInterviewSessionMutationVariables>(StartMockInterviewSessionDocument, options);
+      }
+export type StartMockInterviewSessionMutationHookResult = ReturnType<typeof useStartMockInterviewSessionMutation>;
+export type StartMockInterviewSessionMutationResult = Apollo.MutationResult<StartMockInterviewSessionMutation>;
+export type StartMockInterviewSessionMutationOptions = Apollo.BaseMutationOptions<StartMockInterviewSessionMutation, StartMockInterviewSessionMutationVariables>;
 export const CreateMockInterviewDocument = gql`
     mutation CreateMockInterview($input: CreateMockInterviewRequest!) {
   createMockInterview(input: $input) {

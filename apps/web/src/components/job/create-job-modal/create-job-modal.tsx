@@ -16,7 +16,7 @@ interface CreateJobFormData {
 export default function CreateJobModal({
   closeCallback,
 }: {
-  closeCallback: () => void;
+  closeCallback: (completed: boolean) => void;
 }) {
   const form = useForm<CreateJobFormData>({
     mode: "uncontrolled",
@@ -49,7 +49,7 @@ export default function CreateJobModal({
       variables: { createJobRequest: data },
     })
       .then(() => {
-        closeCallback();
+        closeCallback(true);
       })
       .catch((error) => {
         console.error("Error creating job:", error);

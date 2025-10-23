@@ -12,6 +12,8 @@ import { GetMockInterviewSessionsRequest } from './dto/request/get-mock-intervie
 import { GetMockInterviewSessionRequest } from './dto/request/get-mock-interview-session.request';
 import { ModelMessage } from 'ai';
 import { Skill } from '../job/dto/response/job.response';
+import { StartMockInterviewSessionRequest } from './dto/request/start-mock-interview-session.request';
+import { EndMockInterviewSessionRequest } from './dto/request/end-mock-interview-session.request copy';
 
 @Injectable()
 export class MockInterviewSessionService {
@@ -71,7 +73,26 @@ export class MockInterviewSessionService {
       });
     }
 
-    const aiResponse = await this.ai.generateObject(
+    const aiResponse = await this.ai.generateObject<
+      z.ZodArray<
+        z.ZodObject<{
+          question: z.ZodString;
+          // TODO: Find type
+          type: any;
+        }>
+      >,
+      {
+        question: string;
+        type:
+          | 'BEHAVIORAL'
+          | 'TECHNICAL'
+          | 'SITUATIONAL'
+          | 'PERSONAL'
+          | 'COMPANY_SPECIFIC'
+          | 'ROLE_SPECIFIC'
+          | 'MIXED';
+      }[]
+    >(
       z.array(
         z.object({
           question: z.string(),
@@ -81,12 +102,19 @@ export class MockInterviewSessionService {
       prompts,
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
     const mockInterviewSession = await this.prisma.mockInterviewSession.create({
       data: {
         mockInterviewId: mockInterview.id,
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        questions: aiResponse as any,
+        numberOfQuestions,
+        skillFocus: skillsFocus,
+        questions: {
+          createMany: {
+            data: aiResponse.map((q) => ({
+              question: q.question,
+              type: q.type,
+            })),
+          },
+        },
       },
     });
 
@@ -94,7 +122,6 @@ export class MockInterviewSessionService {
       error: null,
       status: true,
       message: 'Mock interview session created successfully',
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       data: new MockInterviewSessionResponse(mockInterviewSession),
     };
   }
@@ -159,6 +186,80 @@ export class MockInterviewSessionService {
       status: true,
       message: 'Mock interview session fetched successfully',
       data: new MockInterviewSessionResponse(mockInterviewSession),
+      error: null,
+    };
+  }
+
+  async startSession({
+    mockInterviewSessionId,
+  }: StartMockInterviewSessionRequest): Promise<ServiceResponse<boolean>> {
+    const session = await this.prisma.mockInterviewSession.findFirst({
+      where: { id: mockInterviewSessionId },
+    });
+
+    if (!session) {
+      return {
+        status: false,
+        message: 'Mock interview session not found',
+        error: new Error('NOT_FOUND'),
+      };
+    }
+
+    if (session.startedAt) {
+      return {
+        status: true,
+        message: 'Mock interview session already started',
+        data: true,
+        error: null,
+      };
+    }
+
+    await this.prisma.mockInterviewSession.update({
+      where: { id: mockInterviewSessionId },
+      data: { startedAt: new Date() },
+    });
+
+    return {
+      status: true,
+      message: 'Mock interview session started successfully',
+      data: true,
+      error: null,
+    };
+  }
+
+  async endSession({
+    mockInterviewSessionId,
+  }: EndMockInterviewSessionRequest): Promise<ServiceResponse<boolean>> {
+    const session = await this.prisma.mockInterviewSession.findFirst({
+      where: { id: mockInterviewSessionId },
+    });
+
+    if (!session) {
+      return {
+        status: false,
+        message: 'Mock interview session not found',
+        error: new Error('NOT_FOUND'),
+      };
+    }
+
+    if (session.completedAt) {
+      return {
+        status: true,
+        message: 'Mock interview session already completed',
+        data: true,
+        error: null,
+      };
+    }
+
+    await this.prisma.mockInterviewSession.update({
+      where: { id: mockInterviewSessionId },
+      data: { completedAt: new Date(), isCompleted: true },
+    });
+
+    return {
+      status: true,
+      message: 'Mock interview session completed successfully',
+      data: true,
       error: null,
     };
   }

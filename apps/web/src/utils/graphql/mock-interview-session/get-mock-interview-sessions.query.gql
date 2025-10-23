@@ -4,14 +4,12 @@ query GetMockInterviewSessions($input: GetMockInterviewSessionsRequest!) {
       createdAt
       id
       mockInterviewId
+      numberOfQuestions
+      skillFocus
       updatedAt
       isCompleted
       startedAt
       completedAt
-      questions {
-        question
-        type
-      }
     }
     pagination {
       limit

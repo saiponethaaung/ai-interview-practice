@@ -5,6 +5,8 @@ import { MockInterviewSessionResponse } from './dto/response/mock-interview-sess
 import { MockInterviewSessionPaginatedResponse } from './dto/response/mock-interview-session-paginated.response';
 import { GetMockInterviewSessionsRequest } from './dto/request/get-mock-interview-sessions.request';
 import { GetMockInterviewSessionRequest } from './dto/request/get-mock-interview-session.request';
+import { StartMockInterviewSessionRequest } from './dto/request/start-mock-interview-session.request';
+import { EndMockInterviewSessionRequest } from './dto/request/end-mock-interview-session.request copy';
 
 @Resolver()
 export class MockInterviewSessionResolver {
@@ -53,5 +55,35 @@ export class MockInterviewSessionResolver {
     }
 
     return serviceResponse.data;
+  }
+
+  @Mutation(() => Boolean)
+  async startMockInterviewSession(
+    @Args('input') dto: StartMockInterviewSessionRequest,
+  ): Promise<boolean> {
+    const serviceResponse = await this.service.startSession(dto);
+
+    if (!serviceResponse.status) {
+      throw new Error(
+        serviceResponse.message || 'Failed to start mock interview session',
+      );
+    }
+
+    return true;
+  }
+
+  @Mutation(() => Boolean)
+  async endMockInterviewSession(
+    @Args('input') dto: EndMockInterviewSessionRequest,
+  ): Promise<boolean> {
+    const serviceResponse = await this.service.endSession(dto);
+
+    if (!serviceResponse.status) {
+      throw new Error(
+        serviceResponse.message || 'Failed to end mock interview session',
+      );
+    }
+
+    return true;
   }
 }

@@ -18,6 +18,11 @@ export type Scalars = {
   DateTime: { input: any; output: any; }
 };
 
+export type AnswerMockInterviewSessionQuestionRequest = {
+  answer: Scalars['String']['input'];
+  mockInterviewSessionQuestionId: Scalars['String']['input'];
+};
+
 export type AskQuestionJobAnswerRequest = {
   jobId: Scalars['String']['input'];
   question: Scalars['String']['input'];
@@ -64,6 +69,10 @@ export type CreateMockInterviewSessionRequest = {
   mockInterviewId: Scalars['String']['input'];
   numberOfQuestions?: InputMaybe<Scalars['Float']['input']>;
   skillsFocus?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type EndMockInterviewSessionRequest = {
+  mockInterviewSessionId: Scalars['String']['input'];
 };
 
 export type FilePaginatedResponse = {
@@ -116,6 +125,10 @@ export type GetMockInterviewRequest = {
   id: Scalars['String']['input'];
 };
 
+export type GetMockInterviewSessionQuestionRequest = {
+  mockInterviewSessionId: Scalars['String']['input'];
+};
+
 export type GetMockInterviewSessionRequest = {
   id: Scalars['String']['input'];
 };
@@ -134,12 +147,6 @@ export type GetMockInterviewsRequest = {
   questionType?: InputMaybe<Scalars['String']['input']>;
   stage?: InputMaybe<Scalars['String']['input']>;
   type?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type InterviewQuestions = {
-  __typename?: 'InterviewQuestions';
-  question: Scalars['String']['output'];
-  type: Scalars['String']['output'];
 };
 
 export type JobAnswerResponse = {
@@ -197,6 +204,16 @@ export type MockInterviewSessionPaginatedResponse = {
   pagination: PaginationResponse;
 };
 
+export type MockInterviewSessionQuestionResponse = {
+  __typename?: 'MockInterviewSessionQuestionResponse';
+  endTime?: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['String']['output'];
+  mockInterviewSessionId: Scalars['String']['output'];
+  question: Scalars['String']['output'];
+  startTime?: Maybe<Scalars['DateTime']['output']>;
+  type: Scalars['String']['output'];
+};
+
 export type MockInterviewSessionResponse = {
   __typename?: 'MockInterviewSessionResponse';
   completedAt?: Maybe<Scalars['DateTime']['output']>;
@@ -204,19 +221,29 @@ export type MockInterviewSessionResponse = {
   id: Scalars['String']['output'];
   isCompleted: Scalars['Boolean']['output'];
   mockInterviewId: Scalars['String']['output'];
-  questions: Array<InterviewQuestions>;
+  numberOfQuestions: Scalars['Float']['output'];
+  skillFocus: Scalars['Boolean']['output'];
   startedAt?: Maybe<Scalars['DateTime']['output']>;
   updatedAt: Scalars['DateTime']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  answerMockInterviewSessionQuestion: Scalars['Boolean']['output'];
   askQuestion: JobAnswerResponse;
   createJob: JobResponse;
   createMockInterview: MockInterviewResponse;
   createMockInterviewSession: MockInterviewSessionResponse;
   createUploadFile: CreateFileResponse;
+  endMockInterviewSession: Scalars['Boolean']['output'];
   generateCoverLetter: JobAnswerResponse;
+  startMockInterviewSession: Scalars['Boolean']['output'];
+  startMockInterviewSessionQuestion: Scalars['Boolean']['output'];
+};
+
+
+export type MutationAnswerMockInterviewSessionQuestionArgs = {
+  input: AnswerMockInterviewSessionQuestionRequest;
 };
 
 
@@ -245,8 +272,23 @@ export type MutationCreateUploadFileArgs = {
 };
 
 
+export type MutationEndMockInterviewSessionArgs = {
+  input: EndMockInterviewSessionRequest;
+};
+
+
 export type MutationGenerateCoverLetterArgs = {
   input: GenerateCoverLetterRequest;
+};
+
+
+export type MutationStartMockInterviewSessionArgs = {
+  input: StartMockInterviewSessionRequest;
+};
+
+
+export type MutationStartMockInterviewSessionQuestionArgs = {
+  input: StartMockInterviewSessionQuestionRequest;
 };
 
 export type PaginationResponse = {
@@ -263,6 +305,7 @@ export type Query = {
   getJobAnswers: Array<JobAnswerResponse>;
   getMockInterviewById: MockInterviewResponse;
   getMockInterviewSessionById: MockInterviewSessionResponse;
+  getMockInterviewSessionQuestions: Array<MockInterviewSessionQuestionResponse>;
   getMockInterviewSessions: MockInterviewSessionPaginatedResponse;
   getMockInterviews: MockInterviewPaginatedResponse;
   job?: Maybe<JobResponse>;
@@ -287,6 +330,11 @@ export type QueryGetMockInterviewByIdArgs = {
 
 export type QueryGetMockInterviewSessionByIdArgs = {
   input: GetMockInterviewSessionRequest;
+};
+
+
+export type QueryGetMockInterviewSessionQuestionsArgs = {
+  input: GetMockInterviewSessionQuestionRequest;
 };
 
 
@@ -354,6 +402,14 @@ export type Skill = {
   technical: Scalars['Boolean']['output'];
 };
 
+export type StartMockInterviewSessionQuestionRequest = {
+  mockInterviewSessionQuestionId: Scalars['String']['input'];
+};
+
+export type StartMockInterviewSessionRequest = {
+  mockInterviewSessionId: Scalars['String']['input'];
+};
+
 export type CreateUploadFileMutationVariables = Exact<{
   createFileRequest: CreateFileRequest;
 }>;
@@ -410,26 +466,61 @@ export type GetJobsQueryVariables = Exact<{
 
 export type GetJobsQuery = { __typename?: 'Query', jobs: Array<{ __typename?: 'JobResponse', createdAt: any, description?: string | null, id: string, company?: string | null, link: string, status: string, title: string, updatedAt: any, skills: Array<{ __typename?: 'Skill', description: string, mandatory: boolean, name: string, technical: boolean }> }> };
 
+export type AnswerMockInterviewSessionQuestionMutationVariables = Exact<{
+  input: AnswerMockInterviewSessionQuestionRequest;
+}>;
+
+
+export type AnswerMockInterviewSessionQuestionMutation = { __typename?: 'Mutation', answerMockInterviewSessionQuestion: boolean };
+
+export type GetMockInterviewSessionQuestionsQueryVariables = Exact<{
+  input: GetMockInterviewSessionQuestionRequest;
+}>;
+
+
+export type GetMockInterviewSessionQuestionsQuery = { __typename?: 'Query', getMockInterviewSessionQuestions: Array<{ __typename?: 'MockInterviewSessionQuestionResponse', endTime?: any | null, id: string, mockInterviewSessionId: string, question: string, startTime?: any | null, type: string }> };
+
+export type StartMockInterviewSessionQuestionMutationVariables = Exact<{
+  input: StartMockInterviewSessionQuestionRequest;
+}>;
+
+
+export type StartMockInterviewSessionQuestionMutation = { __typename?: 'Mutation', startMockInterviewSessionQuestion: boolean };
+
 export type CreateMockInterviewSessionMutationVariables = Exact<{
   input: CreateMockInterviewSessionRequest;
 }>;
 
 
-export type CreateMockInterviewSessionMutation = { __typename?: 'Mutation', createMockInterviewSession: { __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, updatedAt: any, questions: Array<{ __typename?: 'InterviewQuestions', question: string, type: string }> } };
+export type CreateMockInterviewSessionMutation = { __typename?: 'Mutation', createMockInterviewSession: { __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, numberOfQuestions: number, skillFocus: boolean, updatedAt: any, isCompleted: boolean, startedAt?: any | null, completedAt?: any | null } };
+
+export type EndMockInterviewSessionMutationVariables = Exact<{
+  input: EndMockInterviewSessionRequest;
+}>;
+
+
+export type EndMockInterviewSessionMutation = { __typename?: 'Mutation', endMockInterviewSession: boolean };
 
 export type GetMockInterviewSessionByIdQueryVariables = Exact<{
   input: GetMockInterviewSessionRequest;
 }>;
 
 
-export type GetMockInterviewSessionByIdQuery = { __typename?: 'Query', getMockInterviewSessionById: { __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, updatedAt: any, isCompleted: boolean, startedAt?: any | null, completedAt?: any | null, questions: Array<{ __typename?: 'InterviewQuestions', question: string, type: string }> } };
+export type GetMockInterviewSessionByIdQuery = { __typename?: 'Query', getMockInterviewSessionById: { __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, numberOfQuestions: number, skillFocus: boolean, updatedAt: any, isCompleted: boolean, startedAt?: any | null, completedAt?: any | null } };
 
 export type GetMockInterviewSessionsQueryVariables = Exact<{
   input: GetMockInterviewSessionsRequest;
 }>;
 
 
-export type GetMockInterviewSessionsQuery = { __typename?: 'Query', getMockInterviewSessions: { __typename?: 'MockInterviewSessionPaginatedResponse', data: Array<{ __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, updatedAt: any, isCompleted: boolean, startedAt?: any | null, completedAt?: any | null, questions: Array<{ __typename?: 'InterviewQuestions', question: string, type: string }> }>, pagination: { __typename?: 'PaginationResponse', limit: number, page: number, total: number, totalPages: number } } };
+export type GetMockInterviewSessionsQuery = { __typename?: 'Query', getMockInterviewSessions: { __typename?: 'MockInterviewSessionPaginatedResponse', data: Array<{ __typename?: 'MockInterviewSessionResponse', createdAt: any, id: string, mockInterviewId: string, numberOfQuestions: number, skillFocus: boolean, updatedAt: any, isCompleted: boolean, startedAt?: any | null, completedAt?: any | null }>, pagination: { __typename?: 'PaginationResponse', limit: number, page: number, total: number, totalPages: number } } };
+
+export type StartMockInterviewSessionMutationVariables = Exact<{
+  input: StartMockInterviewSessionRequest;
+}>;
+
+
+export type StartMockInterviewSessionMutation = { __typename?: 'Mutation', startMockInterviewSession: boolean };
 
 export type CreateMockInterviewMutationVariables = Exact<{
   input: CreateMockInterviewRequest;
@@ -461,9 +552,14 @@ export const GetJobAnswersDocument = {"kind":"Document","definitions":[{"kind":"
 export const CreateJobDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateJob"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"createJobRequest"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateJobRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createJob"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"createJobRequest"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"company"}},{"kind":"Field","name":{"kind":"Name","value":"skills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"mandatory"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"technical"}}]}}]}}]}}]} as unknown as DocumentNode<CreateJobMutation, CreateJobMutationVariables>;
 export const GetJobDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetJob"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getJob"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetJobRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"job"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"GetJobRequest"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getJob"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"company"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"skills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"mandatory"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"technical"}}]}}]}}]}}]} as unknown as DocumentNode<GetJobQuery, GetJobQueryVariables>;
 export const GetJobsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetJobs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"getJobsRequest"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetJobsRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"jobs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"GetJobsRequest"},"value":{"kind":"Variable","name":{"kind":"Name","value":"getJobsRequest"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"company"}},{"kind":"Field","name":{"kind":"Name","value":"link"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"skills"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"mandatory"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"technical"}}]}}]}}]}}]} as unknown as DocumentNode<GetJobsQuery, GetJobsQueryVariables>;
-export const CreateMockInterviewSessionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateMockInterviewSession"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateMockInterviewSessionRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createMockInterviewSession"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mockInterviewId"}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<CreateMockInterviewSessionMutation, CreateMockInterviewSessionMutationVariables>;
-export const GetMockInterviewSessionByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMockInterviewSessionById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetMockInterviewSessionRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getMockInterviewSessionById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mockInterviewId"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"isCompleted"}},{"kind":"Field","name":{"kind":"Name","value":"startedAt"}},{"kind":"Field","name":{"kind":"Name","value":"completedAt"}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}}]}}]} as unknown as DocumentNode<GetMockInterviewSessionByIdQuery, GetMockInterviewSessionByIdQueryVariables>;
-export const GetMockInterviewSessionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMockInterviewSessions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetMockInterviewSessionsRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getMockInterviewSessions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mockInterviewId"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"isCompleted"}},{"kind":"Field","name":{"kind":"Name","value":"startedAt"}},{"kind":"Field","name":{"kind":"Name","value":"completedAt"}},{"kind":"Field","name":{"kind":"Name","value":"questions"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}},{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"limit"}},{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}}]}}]}}]}}]} as unknown as DocumentNode<GetMockInterviewSessionsQuery, GetMockInterviewSessionsQueryVariables>;
+export const AnswerMockInterviewSessionQuestionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"AnswerMockInterviewSessionQuestion"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"AnswerMockInterviewSessionQuestionRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"answerMockInterviewSessionQuestion"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<AnswerMockInterviewSessionQuestionMutation, AnswerMockInterviewSessionQuestionMutationVariables>;
+export const GetMockInterviewSessionQuestionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMockInterviewSessionQuestions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetMockInterviewSessionQuestionRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getMockInterviewSessionQuestions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endTime"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mockInterviewSessionId"}},{"kind":"Field","name":{"kind":"Name","value":"question"}},{"kind":"Field","name":{"kind":"Name","value":"startTime"}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}}]}}]} as unknown as DocumentNode<GetMockInterviewSessionQuestionsQuery, GetMockInterviewSessionQuestionsQueryVariables>;
+export const StartMockInterviewSessionQuestionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"StartMockInterviewSessionQuestion"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"StartMockInterviewSessionQuestionRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"startMockInterviewSessionQuestion"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<StartMockInterviewSessionQuestionMutation, StartMockInterviewSessionQuestionMutationVariables>;
+export const CreateMockInterviewSessionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateMockInterviewSession"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateMockInterviewSessionRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createMockInterviewSession"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mockInterviewId"}},{"kind":"Field","name":{"kind":"Name","value":"numberOfQuestions"}},{"kind":"Field","name":{"kind":"Name","value":"skillFocus"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"isCompleted"}},{"kind":"Field","name":{"kind":"Name","value":"startedAt"}},{"kind":"Field","name":{"kind":"Name","value":"completedAt"}}]}}]}}]} as unknown as DocumentNode<CreateMockInterviewSessionMutation, CreateMockInterviewSessionMutationVariables>;
+export const EndMockInterviewSessionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"EndMockInterviewSession"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"EndMockInterviewSessionRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"endMockInterviewSession"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<EndMockInterviewSessionMutation, EndMockInterviewSessionMutationVariables>;
+export const GetMockInterviewSessionByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMockInterviewSessionById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetMockInterviewSessionRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getMockInterviewSessionById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mockInterviewId"}},{"kind":"Field","name":{"kind":"Name","value":"numberOfQuestions"}},{"kind":"Field","name":{"kind":"Name","value":"skillFocus"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"isCompleted"}},{"kind":"Field","name":{"kind":"Name","value":"startedAt"}},{"kind":"Field","name":{"kind":"Name","value":"completedAt"}}]}}]}}]} as unknown as DocumentNode<GetMockInterviewSessionByIdQuery, GetMockInterviewSessionByIdQueryVariables>;
+export const GetMockInterviewSessionsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMockInterviewSessions"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetMockInterviewSessionsRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getMockInterviewSessions"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"mockInterviewId"}},{"kind":"Field","name":{"kind":"Name","value":"numberOfQuestions"}},{"kind":"Field","name":{"kind":"Name","value":"skillFocus"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"isCompleted"}},{"kind":"Field","name":{"kind":"Name","value":"startedAt"}},{"kind":"Field","name":{"kind":"Name","value":"completedAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"limit"}},{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}}]}}]}}]}}]} as unknown as DocumentNode<GetMockInterviewSessionsQuery, GetMockInterviewSessionsQueryVariables>;
+export const StartMockInterviewSessionDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"StartMockInterviewSession"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"StartMockInterviewSessionRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"startMockInterviewSession"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<StartMockInterviewSessionMutation, StartMockInterviewSessionMutationVariables>;
 export const CreateMockInterviewDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"CreateMockInterview"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"CreateMockInterviewRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createMockInterview"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"difficulty"}},{"kind":"Field","name":{"kind":"Name","value":"globalPrompt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"jobId"}},{"kind":"Field","name":{"kind":"Name","value":"questionType"}},{"kind":"Field","name":{"kind":"Name","value":"stage"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<CreateMockInterviewMutation, CreateMockInterviewMutationVariables>;
 export const GetMockInterviewByIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMockInterviewById"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetMockInterviewRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getMockInterviewById"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"difficulty"}},{"kind":"Field","name":{"kind":"Name","value":"globalPrompt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"jobId"}},{"kind":"Field","name":{"kind":"Name","value":"questionType"}},{"kind":"Field","name":{"kind":"Name","value":"stage"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<GetMockInterviewByIdQuery, GetMockInterviewByIdQueryVariables>;
 export const GetMockInterviewsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetMockInterviews"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GetMockInterviewsRequest"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getMockInterviews"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"data"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"difficulty"}},{"kind":"Field","name":{"kind":"Name","value":"globalPrompt"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"jobId"}},{"kind":"Field","name":{"kind":"Name","value":"questionType"}},{"kind":"Field","name":{"kind":"Name","value":"stage"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}},{"kind":"Field","name":{"kind":"Name","value":"pagination"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"limit"}},{"kind":"Field","name":{"kind":"Name","value":"page"}},{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"totalPages"}}]}}]}}]}}]} as unknown as DocumentNode<GetMockInterviewsQuery, GetMockInterviewsQueryVariables>;

@@ -56,7 +56,8 @@ export function CreateMockInterviewSessionForm({
       skillsFocus: (value) =>
         typeof value === "boolean" ? null : "Skills focus must be a boolean",
       numberOfQuestions: (value) =>
-        value && value >= 20 ? null : "Number of questions must be min of 20",
+        value && value >= 1 ? null : "Number of questions must be min of 1",
+        // value && value >= 20 ? null : "Number of questions must be min of 20",
     },
   });
 

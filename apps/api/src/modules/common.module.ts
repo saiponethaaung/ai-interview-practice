@@ -4,6 +4,7 @@ import { JobModule } from './job/job.module';
 import { JobAnswerModule } from './job-answer/job-answer.module';
 import { MockInterviewModule } from './mock-interview/mock-interview.module';
 import { MockInterviewSessionModule } from './mock-interview-session/mock-interview-session.module';
+import { MockInterviewSessionQuestionModule } from './mock-interview-session-question/mock-interview-session-question.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { MockInterviewSessionModule } from './mock-interview-session/mock-interv
     JobAnswerModule,
     MockInterviewModule,
     MockInterviewSessionModule,
+    MockInterviewSessionQuestionModule,
   ],
 })
 export class CommonModule {}

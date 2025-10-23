@@ -1,0 +1,3 @@
+mutation EndMockInterviewSession($input: EndMockInterviewSessionRequest!) {
+  endMockInterviewSession(input: $input)
+}
