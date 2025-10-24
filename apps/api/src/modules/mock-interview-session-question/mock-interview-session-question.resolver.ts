@@ -4,6 +4,7 @@ import { MockInterviewSessionQuestionResponse } from './dto/response/mock-interv
 import { GetMockInterviewSessionQuestionRequest } from './dto/request/get-mock-interview-session-question.request';
 import { StartMockInterviewSessionQuestionRequest } from './dto/request/start-mock-interview-session-question.request';
 import { AnswerMockInterviewSessionQuestionRequest } from './dto/request/answer-mock-interview-session-question.request';
+import { AnalyzeMockInterviewSessionQuestionRequest } from './dto/request/analyze-mock-interview-session-question.request';
 
 @Resolver()
 export class MockInterviewSessionQuestionResolver {
@@ -35,6 +36,19 @@ export class MockInterviewSessionQuestionResolver {
     @Args('input') dto: AnswerMockInterviewSessionQuestionRequest,
   ): Promise<boolean> {
     const serviceResponse = await this.service.answerQuestion(dto);
+
+    if (!serviceResponse.status || !serviceResponse.data) {
+      throw new Error(serviceResponse.message);
+    }
+
+    return serviceResponse.data;
+  }
+
+  @Mutation(() => Boolean)
+  async analyzeMockInterviewSessionQuestion(
+    @Args('input') dto: AnalyzeMockInterviewSessionQuestionRequest,
+  ): Promise<boolean> {
+    const serviceResponse = await this.service.analyzeQuestion(dto);
 
     if (!serviceResponse.status || !serviceResponse.data) {
       throw new Error(serviceResponse.message);

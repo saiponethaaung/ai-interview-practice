@@ -2,6 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input AnalyzeMockInterviewSessionQuestionRequest {
+  mockInterviewSessionQuestionId: String!
+}
+
 input AnswerMockInterviewSessionQuestionRequest {
   answer: String!
   mockInterviewSessionQuestionId: String!
@@ -183,13 +187,28 @@ type MockInterviewSessionPaginatedResponse {
   pagination: PaginationResponse!
 }
 
+type MockInterviewSessionQuestionAnalysis {
+  averageScore: Float!
+  improvements: String!
+  overview: String!
+  scores: Scores!
+  strengths: String!
+}
+
 type MockInterviewSessionQuestionResponse {
+  analysis: MockInterviewSessionQuestionAnalysis
+  conversations: [MockInterviewSessionQuestionsConversation!]!
   endTime: DateTime
   id: String!
   mockInterviewSessionId: String!
   question: String!
   startTime: DateTime
   type: String!
+}
+
+type MockInterviewSessionQuestionsConversation {
+  content: String!
+  role: String!
 }
 
 type MockInterviewSessionResponse {
@@ -205,6 +224,7 @@ type MockInterviewSessionResponse {
 }
 
 type Mutation {
+  analyzeMockInterviewSessionQuestion(input: AnalyzeMockInterviewSessionQuestionRequest!): Boolean!
   answerMockInterviewSessionQuestion(input: AnswerMockInterviewSessionQuestionRequest!): Boolean!
   askQuestion(input: AskQuestionJobAnswerRequest!): JobAnswerResponse!
   createJob(input: CreateJobRequest!): JobResponse!
@@ -267,6 +287,23 @@ type ResumeResponse {
   phoneNumber: String
   skills: [String!]
   summary: String
+}
+
+type ScoreAnalysis {
+  example: String!
+  feedback: String!
+  highlights: String
+  score: String!
+}
+
+type Scores {
+  clarity: ScoreAnalysis!
+  confidence: ScoreAnalysis!
+  correctness: ScoreAnalysis!
+  depth: ScoreAnalysis!
+  relevance: ScoreAnalysis!
+  structure: ScoreAnalysis!
+  tone: ScoreAnalysis!
 }
 
 type Skill {

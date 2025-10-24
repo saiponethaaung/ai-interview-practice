@@ -8,5 +8,59 @@ query GetMockInterviewSessionQuestions(
     question
     startTime
     type
+    analysis {
+      averageScore
+      improvements
+      overview
+      strengths
+      scores {
+        clarity {
+          example
+          feedback
+          highlights
+          score
+        }
+        confidence {
+          example
+          feedback
+          highlights
+          score
+        }
+        correctness {
+          example
+          feedback
+          highlights
+          score
+        }
+        depth {
+          example
+          feedback
+          highlights
+          score
+        }
+        relevance {
+          example
+          feedback
+          highlights
+          score
+        }
+        structure {
+          example
+          feedback
+          highlights
+          score
+        }
+        tone {
+          example
+          feedback
+          highlights
+          score
+        }
+      }
+    }
+    conversations {
+      content
+      role
+    }
   }
 }

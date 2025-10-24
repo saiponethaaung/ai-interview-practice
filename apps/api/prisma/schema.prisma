@@ -186,6 +186,7 @@ model MockInterviewSessionQuestion {
   question      String       @map("question")
   type          QuestionType @map("type")
   conversations Json?        @default("[]") @map("conversations")
+  analysis      Json?        @map("analysis")
 
   startTime DateTime? @map("start_time")
   endTime   DateTime? @map("end_time")
@@ -195,21 +196,3 @@ model MockInterviewSessionQuestion {
 
   @@map("mock_interview_session_question")
 }
-
-// model MockInterviewSessionContent {
-//   id String @id @default(uuid(7))
-
-//   mockInterviewSessionId String               @map("mock_interview_session_id")
-//   mockInterviewSession   MockInterviewSession @relation(fields: [mockInterviewSessionId], references: [id])
-
-//   isQuestion  String  @map("is_question")
-//   isCompleted Boolean @default(false) @map("is_completed")
-//   content     String?
-//   feedback    String?
-//   score       Int?    @default(0)
-
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-
-//   @@map("mock_interview_session_content")
-// }

@@ -1,0 +1,5 @@
+mutation AnalyzeMockInterviewSessionQuestion(
+  $input: AnalyzeMockInterviewSessionQuestionRequest!
+) {
+  analyzeMockInterviewSessionQuestion(input: $input)
+}

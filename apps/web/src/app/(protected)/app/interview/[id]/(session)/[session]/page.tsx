@@ -11,6 +11,7 @@ import {
   useStartMockInterviewSessionMutation,
 } from "@web/utils/graphql/generated/types";
 import { useParams } from "next/navigation";
+import MockInterviewSessionAnalysis from "@web/components/mock-interview-session/analysis/mock-interview-session-answers.component";
 
 export default function SessionPage() {
   const { id, session } = useParams<{ id: string; session: string }>();
@@ -91,9 +92,12 @@ export default function SessionPage() {
     return (
       <div>
         <Container style={{ maxWidth: "100%", padding: "20px", flexGrow: 1 }}>
-          <h1>Session Completed</h1>
-          <p>This mock interview session has been completed.</p>
-          <div>To show analytics, breakdown and feedback</div>
+          <MockInterviewSessionAnalysis
+            refechQuestions={questionsRefetch}
+            interview={mockInterviewData!.getMockInterviewById}
+            session={data!.getMockInterviewSessionById}
+            questions={questions?.getMockInterviewSessionQuestions ?? []}
+          />
         </Container>
       </div>
     );
