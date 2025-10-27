@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import { ApolloGQLProvider } from "@web/utils/apollo/apollo.provider";
 import {
   ColorSchemeScript,
@@ -7,19 +7,15 @@ import {
   createTheme,
   mantineHtmlProps,
 } from "@mantine/core";
-
 import "./globals.css";
 import "@mantine/core/styles.css";
 import "@mantine/dropzone/styles.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -28,7 +24,8 @@ export const metadata: Metadata = {
 };
 
 const theme = createTheme({
-  /** Put your mantine theme override here */
+  fontFamily: poppins.style.fontFamily,
+
 });
 
 export default function RootLayout({
@@ -42,7 +39,8 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={` ${poppins.variable} antialiased`}
+        suppressHydrationWarning={true}
       >
         <ApolloGQLProvider>
           <MantineProvider theme={theme}>{children}</MantineProvider>
