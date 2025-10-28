@@ -1,6 +1,7 @@
 "use client";
 
-import { Button, Container, Flex, Modal, Text } from "@mantine/core";
+import { Box, Button, Container, Flex, Modal, Stack, Text } from "@mantine/core";
+import { IconVideoPlus } from "@tabler/icons-react";
 import { CreateMockInterviewForm } from "@web/components/mock-interview/create-form/create-mock-interview-form.component";
 import { MockInterviewTable } from "@web/components/mock-interview/table/mock-interview-table.component";
 import { useGetMockInterviewsQuery } from "@web/utils/graphql/generated/types";
@@ -22,12 +23,23 @@ export default function InterviewPage() {
 
   return (
     <div>
-      <Container style={{ maxWidth: "100%", padding: "20px", flexGrow: 1 }}>
-        <Flex p={"0"} direction={"column"}>
+      <Container size="xl">
+        <Flex p={"0"} direction={"column"} my={20} gap={20}>
           <Flex align={"center"} justify={"space-between"} w={"100%"}>
-            <Text size="lg">Mock Interviews</Text>
-            <Button onClick={() => setOpenCreateForm(true)}>
-              Create Mock Interview
+            <Stack align="flex-start" gap={0}>
+              <h1 className="text-3xl font-bold mb-2">
+                Mock Interview
+              </h1>
+              <span className="text-gray-600">
+                Prepare for your interviews with AI-powered mock interviews
+              </span>
+            </Stack>
+            <Button style={{
+              backgroundColor: 'var(--primary)',
+              fontWeight: '700'
+            }}
+              onClick={() => setOpenCreateForm(true)}>
+              <IconVideoPlus className="mr-2" size={20} color="white" /> Create Mock Interview
             </Button>
             <Modal
               opened={openCreateForm}
@@ -45,8 +57,9 @@ export default function InterviewPage() {
               />
             </Modal>
           </Flex>
-
-          <MockInterviewTable data={data} loading={loading} error={error} />
+          <Box p={20} className="bg-[var(--card-light)] rounded-lg shadow-md my-6">
+            <MockInterviewTable data={data} loading={loading} error={error} />
+          </Box>
         </Flex>
       </Container>
     </div>
