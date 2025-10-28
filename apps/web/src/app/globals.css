@@ -3,7 +3,7 @@
 :root {
     --primary: #6366F1;
     --background-light: #F8F9FA;
-    --background-dark: #1F2937;
+    --background-dark: #6c88ad;
     --card-light: #FFFFFF;
     --card-dark: #374151;
     --text-light: #1F2937;
@@ -19,7 +19,7 @@
 @theme {
     --primary: #6366F1;
     --background-light: #F9FAFB;
-    --background-dark: #1F2937;
+    --background-dark: #6c88ad;
     --card-light: #FFFFFF;
     --card-dark: #374151;
     --text-light: #1F2937;

@@ -23,7 +23,7 @@ interface UploadFileData {
 }
 
 interface IProps {
-  closeCallback: () => void;
+  closeCallback: (completed?: boolean) => void;
 }
 
 export default function UploadFileForm({ closeCallback }: IProps) {
@@ -89,7 +89,7 @@ export default function UploadFileForm({ closeCallback }: IProps) {
     });
 
     setIsUploading(false);
-    closeCallback();
+    closeCallback(true);
   };
 
   useEffect(() => {

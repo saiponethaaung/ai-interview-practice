@@ -12,7 +12,7 @@ export default function RootLayout({
         {/* <div className="flex flex-col justify-center items-start h-[60px] p-4 py-10 bg-blue-200"></div> */}
         <div
           className="flex flex-col overflow-auto"
-          style={{ height: "calc(100vh - 60px)" }}
+          style={{ height: "100vh " }}
         >
           {children}
         </div>
