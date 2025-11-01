@@ -6,12 +6,16 @@
     "module": "ESNext",
     "types": ["node"],
     "skipLibCheck": true,
-
+    
+    // Custom
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
-    "moduleDetection": "force",
+    "moduleDetection": "auto",
     "noEmit": true,
 
     /* Linting */

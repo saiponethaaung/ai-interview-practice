@@ -1,0 +1,18 @@
+mutation CreateJob($createJobRequest: CreateJobRequest!) {
+  createJob(input: $createJobRequest) {
+    createdAt
+    description
+    id
+    link
+    status
+    title
+    updatedAt
+    company
+    skills {
+      description
+      mandatory
+      name
+      technical
+    }
+  }
+}

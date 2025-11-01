@@ -4,7 +4,7 @@ import { Box, Button, Container, Flex, Modal, Stack, Text } from "@mantine/core"
 import { IconVideoPlus } from "@tabler/icons-react";
 import { CreateMockInterviewForm } from "@web/components/mock-interview/create-form/create-mock-interview-form.component";
 import { MockInterviewTable } from "@web/components/mock-interview/table/mock-interview-table.component";
-import { useGetMockInterviewsQuery } from "@web/utils/graphql/generated/types";
+import { useGetMockInterviewsQuery } from "@ai-interview-practice/gql";
 import { useState } from "react";
 
 export default function InterviewPage() {

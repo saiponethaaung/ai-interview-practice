@@ -1,0 +1,13 @@
+query GetMockInterviewSessionById($input: GetMockInterviewSessionRequest!) {
+  getMockInterviewSessionById(input: $input) {
+    createdAt
+    id
+    mockInterviewId
+    numberOfQuestions
+    skillFocus
+    updatedAt
+    isCompleted
+    startedAt
+    completedAt
+  }
+}

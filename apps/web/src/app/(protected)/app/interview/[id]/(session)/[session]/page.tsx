@@ -9,7 +9,7 @@ import {
   useGetMockInterviewSessionByIdQuery,
   useGetMockInterviewSessionQuestionsQuery,
   useStartMockInterviewSessionMutation,
-} from "@web/utils/graphql/generated/types";
+} from "@ai-interview-practice/gql";
 import { useParams } from "next/navigation";
 import MockInterviewSessionAnalysis from "@web/components/mock-interview-session/analysis/mock-interview-session-answers.component";
 

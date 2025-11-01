@@ -2,7 +2,7 @@
 
 import { MockInterviewTableItem } from "../table-item/mock-interview-table-item.component";
 import { Table } from "@mantine/core";
-import { GetMockInterviewsQuery } from "@web/utils/graphql/generated/graphql";
+import { GetMockInterviewsQuery } from "@ai-interview-practice/gql";
 
 interface IProps {
   loading: boolean;

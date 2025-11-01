@@ -6,7 +6,7 @@ import { MockInterviewSessionTable } from "@web/components/mock-interview-sessio
 import {
   useGetMockInterviewByIdQuery,
   useGetMockInterviewSessionsQuery,
-} from "@web/utils/graphql/generated/types";
+} from "@ai-interview-practice/gql";
 import { useParams } from "next/navigation";
 import { useState } from "react";
 

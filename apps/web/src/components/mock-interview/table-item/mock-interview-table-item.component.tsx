@@ -2,7 +2,7 @@ import { Button, Table } from "@mantine/core";
 import {
   MockInterviewResponse,
   useGetJobQuery,
-} from "@web/utils/graphql/generated/types";
+} from "@ai-interview-practice/gql";
 import Link from "next/link";
 
 interface IProps {

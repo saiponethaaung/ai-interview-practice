@@ -1,0 +1,17 @@
+query GetJobAnswers($getJobAnswers: GetJobAnswersRequest!) {
+  getJobAnswers(input: $getJobAnswers) {
+    type
+    updatedAt
+    question
+    jobId
+    id
+    createdAt
+    content {
+      content
+      chats {
+        content
+        role
+      }
+    }
+  }
+}

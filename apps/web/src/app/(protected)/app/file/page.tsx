@@ -22,7 +22,7 @@ import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { IconPhoto, IconPlus, IconUpload, IconX } from "@tabler/icons-react";
 import FileViewer from "@web/components/file-viewer/file-viewer";
 import UploadFileForm from "@web/components/file/upload-file-form/upload-file-form.component";
-import { useGetFilesQuery } from "@web/utils/graphql/generated/types";
+import { useGetFilesQuery } from "@ai-interview-practice/gql";
 
 export default function JobPage() {
   const [openFile, setOpenFile] = useState<number>(-1);

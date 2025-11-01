@@ -1,10 +1,10 @@
 import { Box, Button, Flex, LoadingOverlay, Select } from "@mantine/core";
 import { Form, useForm } from "@mantine/form";
-import { CreateMockInterviewRequest } from "@web/utils/graphql/generated/graphql";
 import {
+  CreateMockInterviewRequest,
   useCreateMockInterviewMutation,
   useGetJobsQuery,
-} from "@web/utils/graphql/generated/types";
+} from "@ai-interview-practice/gql";
 import { useEffect, useState } from "react";
 
 interface IProps {

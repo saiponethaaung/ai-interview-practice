@@ -1,0 +1,21 @@
+query GetMockInterviewSessions($input: GetMockInterviewSessionsRequest!) {
+  getMockInterviewSessions(input: $input) {
+    data {
+      createdAt
+      id
+      mockInterviewId
+      numberOfQuestions
+      skillFocus
+      updatedAt
+      isCompleted
+      startedAt
+      completedAt
+    }
+    pagination {
+      limit
+      page
+      total
+      totalPages
+    }
+  }
+}

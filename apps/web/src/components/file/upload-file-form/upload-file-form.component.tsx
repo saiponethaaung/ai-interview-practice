@@ -11,7 +11,7 @@ import {
 import { Form, useForm } from "@mantine/form";
 import { IconPhoto, IconUpload, IconX } from "@tabler/icons-react";
 import { Dropzone, IMAGE_MIME_TYPE, PDF_MIME_TYPE } from "@mantine/dropzone";
-import { useCreateUploadFileMutation } from "@web/utils/graphql/generated/types";
+import { useCreateUploadFileMutation } from "@ai-interview-practice/gql";
 import { useEffect, useState } from "react";
 
 interface UploadFileData {

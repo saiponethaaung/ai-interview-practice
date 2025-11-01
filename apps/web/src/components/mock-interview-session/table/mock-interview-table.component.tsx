@@ -1,7 +1,7 @@
 "use client";
 
 import { Table } from "@mantine/core";
-import { GetMockInterviewSessionsQuery } from "@web/utils/graphql/generated/types";
+import { GetMockInterviewSessionsQuery } from "@ai-interview-practice/gql";
 import Link from "next/link";
 
 interface IProps {

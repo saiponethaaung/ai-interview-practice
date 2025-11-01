@@ -1,6 +1,6 @@
 import { Button, Flex, Input, Loader } from "@mantine/core";
 import { Form, useForm } from "@mantine/form";
-import { useAskQuestionJobAnswerMutation } from "@web/utils/graphql/generated/types";
+import { useAskQuestionJobAnswerMutation } from "@ai-interview-practice/gql";
 
 interface IProps {
   jobID: string;

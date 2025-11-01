@@ -9,12 +9,12 @@ import {
   Text,
   ThemeIcon,
 } from "@mantine/core";
-import { JobResponse } from "@web/utils/graphql/generated/graphql";
+import { JobResponse } from "@ai-interview-practice/gql";
 import {
   useAskQuestionJobAnswerMutation,
   useGenerateCoverLetterMutation,
   useGetJobAnswersQuery,
-} from "@web/utils/graphql/generated/types";
+} from "@ai-interview-practice/gql";
 import AskQuestion from "../ask-question/ask-question";
 
 interface IProps {

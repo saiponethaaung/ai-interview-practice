@@ -2,12 +2,15 @@
 
 import { Button, Card, Flex, Text, Textarea } from "@mantine/core";
 import { Form, useForm } from "@mantine/form";
-import { MockInterviewSessionQuestionResponse } from "@web/utils/graphql/generated/graphql";
-import {
+import { MockInterviewSessionQuestionResponse,
   useAnswerMockInterviewSessionQuestionMutation,
   useStartMockInterviewSessionQuestionMutation,
-} from "@web/utils/graphql/generated/types";
+} from "@ai-interview-practice/gql";
 import { useState, useEffect } from "react";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+import { useSpeech } from "react-text-to-speech";
 
 interface IProps {
   questions: MockInterviewSessionQuestionResponse[];
@@ -18,6 +21,15 @@ export function MockInterviewSessionTextAnswer({
   questions,
   questionsRefetch,
 }: IProps) {
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+    interimTranscript,
+    finalTranscript,
+  } = useSpeechRecognition();
+
   const form = useForm<{ answer: string }>({
     initialValues: {
       answer: "",
@@ -32,6 +44,19 @@ export function MockInterviewSessionTextAnswer({
 
   const [startQuestion] = useStartMockInterviewSessionQuestionMutation({});
   const [answerQuestion] = useAnswerMockInterviewSessionQuestionMutation({});
+  console.log(questions[currentQuestionIndex].question);
+  const {
+    // Text, // Component that renders speech text in a <div> and supports standard HTML <div> props
+    speechStatus, // String that stores current speech status
+    isInQueue, // Indicates whether the speech is currently playing or waiting in the queue
+    start, // Function to start the speech or put it in queue
+    pause, // Function to pause the speech
+    stop, // Function to stop the speech or remove it from queue
+  } = useSpeech({
+    text: questions[currentQuestionIndex].question,
+    voiceURI: "Google UK English Male",
+    volume: 1,
+  });
 
   const updateCurrentQuestionTimestamp = () => {
     startQuestion({
@@ -74,12 +99,20 @@ export function MockInterviewSessionTextAnswer({
     if (!questions[currentQuestionIndex].startTime) {
       updateCurrentQuestionTimestamp();
     }
+    // start();
   }, [currentQuestionIndex, questions]);
 
   useEffect(() => {
     const index = questions.findIndex((question) => question.endTime === null);
     setCurrentQuestionIndex(index !== -1 ? index : 0);
   }, []);
+
+  useEffect(() => {
+    form.setFieldValue(
+      "answer",
+      form.getValues().answer + " " + finalTranscript
+    );
+  }, [finalTranscript]);
 
   return (
     <div>
@@ -101,8 +134,30 @@ export function MockInterviewSessionTextAnswer({
             <Textarea
               mt="sm"
               placeholder="Type your answer here..."
+              resize="vertical"
+              disabled={listening}
+              value={
+                listening
+                  ? form.getInputProps("answer").value + transcript
+                  : undefined
+              }
               {...form.getInputProps("answer")}
             />
+            <div>
+              <p>Microphone: {listening ? "on" : "off"}</p>
+              <button type="button" onClick={SpeechRecognition.startListening}>
+                Start
+              </button>
+              <button type="button" onClick={SpeechRecognition.stopListening}>
+                Stop
+              </button>
+              <button type="button" onClick={resetTranscript}>
+                Reset
+              </button>
+              <p>Transcript: {transcript}</p>
+              <p>Interm: {interimTranscript}</p>
+              <p>Final: {finalTranscript}</p>
+            </div>
             <Text size="xs" mt="sm" fw={800} c="dimmed">
               Note: Take your time to think and answer the question to the best
               of your ability but try to reduce the time taken to answer each
@@ -136,6 +191,8 @@ export function MockInterviewSessionTextAnswer({
                 >
                   Next
                 </Button>
+                <Button onClick={() => start()}>Speak</Button>
+                <Button onClick={() => stop()}>Stop</Button>
               </Flex>
               <Button
                 type="submit"
@@ -145,6 +202,8 @@ export function MockInterviewSessionTextAnswer({
               </Button>
             </Flex>
           </Card>
+          <div>isInQueue: {isInQueue ? "true" : "false"}</div>
+          <div>speechStatus: {speechStatus}</div>
         </Form>
       </div>
     </div>

@@ -1,0 +1,15 @@
+mutation CreateMockInterviewSession(
+  $input: CreateMockInterviewSessionRequest!
+) {
+  createMockInterviewSession(input: $input) {
+    createdAt
+    id
+    mockInterviewId
+    numberOfQuestions
+    skillFocus
+    updatedAt
+    isCompleted
+    startedAt
+    completedAt
+  }
+}

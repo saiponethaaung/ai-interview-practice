@@ -1,8 +1,10 @@
 "use client";
 
 import { Button, Card, Flex, Text, Textarea } from "@mantine/core";
-import { MockInterviewSessionQuestionResponse } from "@web/utils/graphql/generated/graphql";
-import { useStartMockInterviewSessionQuestionMutation } from "@web/utils/graphql/generated/types";
+import {
+  MockInterviewSessionQuestionResponse,
+  useStartMockInterviewSessionQuestionMutation,
+} from "@ai-interview-practice/gql";
 import { useState, useEffect } from "react";
 
 interface IProps {

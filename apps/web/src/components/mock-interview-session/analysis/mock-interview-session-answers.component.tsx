@@ -11,8 +11,8 @@ import {
   MockInterviewResponse,
   MockInterviewSessionQuestionResponse,
   MockInterviewSessionResponse,
-} from "@web/utils/graphql/generated/graphql";
-import { useAnalyzeMockInterviewSessionQuestionMutation } from "@web/utils/graphql/generated/types";
+} from "@ai-interview-practice/gql";
+import { useAnalyzeMockInterviewSessionQuestionMutation } from "@ai-interview-practice/gql";
 
 interface IProps {
   interview: MockInterviewResponse;

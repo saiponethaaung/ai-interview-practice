@@ -5,8 +5,8 @@ export default chrome.runtime.onInstalled.addListener(() => {
 
   chrome.action.onClicked.addListener(() => {
     chrome.sidePanel.setOptions({
-        path: "index.html",
-        enabled: true,
+      path: "index.html",
+      enabled: true,
     });
   });
 

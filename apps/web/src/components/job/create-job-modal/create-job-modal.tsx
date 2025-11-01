@@ -3,7 +3,7 @@ import { Form, useForm } from "@mantine/form";
 import {
   useCreateJobMutation,
   useGetFilesQuery,
-} from "@web/utils/graphql/generated/types";
+} from "@ai-interview-practice/gql";
 
 interface CreateJobFormData {
   title: string;

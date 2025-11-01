@@ -8,8 +8,10 @@ import {
   TextInput,
 } from "@mantine/core";
 import { Form, useForm } from "@mantine/form";
-import { CreateMockInterviewSessionRequest } from "@web/utils/graphql/generated/graphql";
-import { useCreateMockInterviewSessionMutation } from "@web/utils/graphql/generated/types";
+import {
+  CreateMockInterviewSessionRequest,
+  useCreateMockInterviewSessionMutation,
+} from "@ai-interview-practice/gql";
 import { useEffect } from "react";
 
 interface IProps {
@@ -57,7 +59,7 @@ export function CreateMockInterviewSessionForm({
         typeof value === "boolean" ? null : "Skills focus must be a boolean",
       numberOfQuestions: (value) =>
         value && value >= 1 ? null : "Number of questions must be min of 1",
-        // value && value >= 20 ? null : "Number of questions must be min of 20",
+      // value && value >= 20 ? null : "Number of questions must be min of 20",
     },
   });
 

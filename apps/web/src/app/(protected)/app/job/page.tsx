@@ -18,7 +18,7 @@ import { IconPlus } from "@tabler/icons-react";
 import CreateJobModal from "@web/components/job/create-job-modal/create-job-modal";
 import { JobDetailDrawer } from "@web/components/job/job-detail-drawer/job-detail-drawer";
 import { getRandomColor } from "@web/utils/color-generator.util";
-import { useGetJobsQuery } from "@web/utils/graphql/generated/types";
+import { useGetJobsQuery } from "@ai-interview-practice/gql";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -37,19 +37,21 @@ export default function JobPage() {
         <Flex p={"0"} direction={"column"} my={20} gap={20}>
           <Flex align={"center"} justify={"space-between"} w={"100%"}>
             <Stack align="flex-start" gap={0}>
-              <h1 className="text-3xl font-bold mb-2">
-                Job Applications
-              </h1>
+              <h1 className="text-3xl font-bold mb-2">Job Applications</h1>
               <span className="text-gray-600">
                 Track and manage your job Applications
               </span>
             </Stack>
-            <Button style={{
-              backgroundColor: 'var(--primary)',
-              fontWeight: '700'
-            }} onClick={() => setOpenCreateJob(true)}>
+            <Button
+              style={{
+                backgroundColor: "var(--primary)",
+                fontWeight: "700",
+              }}
+              onClick={() => setOpenCreateJob(true)}
+            >
               <IconPlus className="mr-2" size={20} color="white" />
-              Add Application</Button>
+              Add Application
+            </Button>
             <Modal
               opened={openCreateJob}
               title="Add Job"
@@ -65,8 +67,10 @@ export default function JobPage() {
               />
             </Modal>
           </Flex>
-          <Box p={20} className="bg-[var(--card-light)] rounded-lg shadow-md my-6">
-
+          <Box
+            p={20}
+            className="bg-[var(--card-light)] rounded-lg shadow-md my-6"
+          >
             <Table>
               <Table.Thead>
                 <Table.Tr>
@@ -97,7 +101,9 @@ export default function JobPage() {
                             shadow="md"
                           >
                             <Popover.Target>
-                              <Badge color={getRandomColor()}>{skill.name}</Badge>
+                              <Badge color={getRandomColor()}>
+                                {skill.name}
+                              </Badge>
                             </Popover.Target>
                             <Popover.Dropdown>
                               <Flex direction="column" p="10px">
@@ -123,7 +129,9 @@ export default function JobPage() {
                         job={job}
                       />
 
-                      <Button onClick={() => setOpenModel(index)}>Detail</Button>
+                      <Button onClick={() => setOpenModel(index)}>
+                        Detail
+                      </Button>
                     </Table.Th>
                   </Table.Tr>
                 ))}

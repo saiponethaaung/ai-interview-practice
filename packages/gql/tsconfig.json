@@ -1,0 +1,24 @@
+{
+  "extends": "@ai-interview-practice/typescript-config/base.json",
+  "include": ["./src"],
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "ES2020",
+    "sourceMap": true,
+    "outDir": "dist",
+    "lib": ["esnext", "dom"],
+    "baseUrl": "./src",
+    "forceConsistentCasingInFileNames": true,
+    "strictPropertyInitialization": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "Node",
+    "skipLibCheck": true,
+    "noEmit": false,
+    "isolatedModules": false,
+    "declaration": true,
+    "declarationMap": true,
+    "resolveJsonModule": true
+  },
+  "exclude": ["node_modules"]
+}

@@ -176,7 +176,7 @@ export class MockInterviewSessionQuestionService {
       ...(question.conversations as any[]),
       {
         role: 'user',
-        content: `Please provide a detailed analysis of my answer, including strengths and areas for improvement. Overview of answer, strengths, improvements, and score (0-10) with feedback and example for each of the following criteria: correctness, relevance, depth, structure, clarity, tone, and confidence. Highlights is for higihlighting parts of the answer that were particularly well done or need improvement. It can be empty if not needed.`,
+        content: `Please provide a detailed analysis of my answer, including strengths and areas for improvement. Overview of answer, strengths, improvements, and score (0-10) with feedback and example(Like how you would answer based on my profile and experience) for each of the following criteria: correctness, relevance, depth, structure, clarity, tone, and confidence. Highlights is for higihlighting parts of the answer that were particularly well done or need improvement. It can be empty if not needed.`,
       },
     ];
 

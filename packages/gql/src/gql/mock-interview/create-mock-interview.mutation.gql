@@ -1,0 +1,13 @@
+mutation CreateMockInterview($input: CreateMockInterviewRequest!) {
+  createMockInterview(input: $input) {
+    createdAt
+    difficulty
+    globalPrompt
+    id
+    jobId
+    questionType
+    stage
+    type
+    updatedAt
+  }
+}

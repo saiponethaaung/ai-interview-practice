@@ -1,79 +1,78 @@
-import { Button } from "@mantine/core";
-import { useState } from "react";
+import { useEffect } from "react";
+import { useConfigStore } from "../../store/config.store";
+import LinkedinPlatform from "../platform/linkedin.platform";
+import { ChromeHelper } from "../../helper/chrome.helper";
+import WellFoundPlatform from "../platform/wellfound.platform";
+import { useCreateJobMutation } from "@ai-interview-practice/gql";
 
 function MainPage() {
-  const [page, setPage] = useState<string>("");
+  const [createJob, { loading }] = useCreateJobMutation();
+  const { helper, setHelper } = useConfigStore((state) => state);
+  const chromeHelper = new ChromeHelper();
 
-  const applyJob = () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      const activeTab = tabs[0];
-      if (activeTab.id) {
-        chrome.scripting.executeScript({
-          target: { tabId: activeTab.id },
-          func: () => {
-            const btn = document.querySelector(
-              '[class*="actionBar"] > button + button'
-            ) as HTMLButtonElement | null;
-            btn?.click();
-          },
-        });
-      }
+  const detectPage = async () => {
+    const jobHelper = await chromeHelper.getJobHelpers();
+    setHelper(jobHelper);
+  };
+
+  const urlChangeListener = (
+    tabId: number,
+    changeInfo: chrome.tabs.OnUpdatedInfo,
+    tab: chrome.tabs.Tab
+  ) => {
+    if (tab.active && changeInfo.status === "complete") {
+      helper?.pageChanged();
+    }
+  };
+
+  const saveJob = async () => {
+    if (loading) return;
+
+    createJob({
+      variables: {
+        createJobRequest: {
+          title: helper?.scrappedJob.title || "",
+          company: helper?.scrappedJob.company || "",
+          link: helper?.scrappedJob.url || "",
+          description: helper?.scrappedJob.description || "",
+          resumeFileId: "019a2875-a655-7092-acec-c84b8962b65f",
+        },
+      },
     });
   };
 
-  const pageData = () => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      const activeTab = tabs[0];
-      if (activeTab.id) {
-        chrome.scripting.executeScript(
-          {
-            target: { tabId: activeTab.id },
-            func: () => {
-              const platform = window.location.hostname.split(".")[0];
-              const title =
-                document
-                  .querySelector('[class*="styles_header"]')
-                  ?.textContent.split("-")[0]
-                  .trim() || "";
-              const description =
-                document.querySelector('[class*="description"]')?.textContent ||
-                "";
-              const company =
-                document.querySelector('[href*="/discover/startups"]')
-                  ?.nextElementSibling?.nextElementSibling?.textContent || "";
+  useEffect(() => {
+    // Initial page detection
+    detectPage();
 
-              console.log({ platform, title, description, company });
+    // Add event listener for tab changes
+    chrome.tabs.onActivated.addListener(detectPage);
 
-              return {
-                title,
-                url: window.location.href,
-                description,
-                company,
-              };
-            },
-          },
-          (results) => {
-            console.log("Script executed.");
-            if (results && results[0] && results[0].result) {
-              console.log("Script executed 2.");
-              console.log(results[0].result);
-              const { title, url } = results[0].result as {
-                title: string;
-                url: string;
-              };
-              setPage(`Title: ${title}\nURL: ${url}`);
-              // console.log(`Title: ${title}\nURL: ${url}`);
-            }
-          }
-        );
-      }
-    });
-  };
+    // Add event listener for URL changes
+    chrome.tabs.onUpdated.addListener(urlChangeListener);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (helper) {
+      setTimeout(() => {
+        helper.getJobDetails();
+      }, 500);
+    }
+  }, [helper]);
+
+  if (helper?.provider === "wellfound") {
+    return <WellFoundPlatform saveJob={saveJob} saving={loading} />;
+  }
+
+  if (helper?.provider === "linkedin") {
+    return <LinkedinPlatform />;
+  }
 
   return (
     <>
-      <Button onClick={pageData}>Get page data</Button>
-      {page && <pre>{page}</pre>}
+      <div>Unsupported platform</div>
     </>
   );
 }

@@ -1,0 +1,13 @@
+query GetMockInterviewById($input: GetMockInterviewRequest!) {
+  getMockInterviewById(input: $input) {
+    createdAt
+    difficulty
+    globalPrompt
+    id
+    jobId
+    questionType
+    stage
+    type
+    updatedAt
+  }
+}

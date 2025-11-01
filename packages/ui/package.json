@@ -1,5 +1,5 @@
 {
-  "name": "@repo/ui",
+  "name": "@ai-interview-practice/ui",
   "version": "0.0.0",
   "private": true,
   "exports": {
@@ -11,8 +11,8 @@
     "check-types": "tsc --noEmit"
   },
   "devDependencies": {
-    "@repo/eslint-config": "workspace:*",
-    "@repo/typescript-config": "workspace:*",
+    "@ai-interview-practice/eslint-config": "workspace:*",
+    "@ai-interview-practice/typescript-config": "workspace:*",
     "@types/node": "^22.15.3",
     "@types/react": "19.1.0",
     "@types/react-dom": "19.1.1",

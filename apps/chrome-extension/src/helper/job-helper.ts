@@ -1,10 +1,26 @@
+import type { ScrappedJob } from "../interfaces/job.interface";
+
 export abstract class JobHelper {
-  abstract getJobDetails(): Promise<{
-    title: string;
-    company: string;
-    location: string;
-    description: string;
-  }>;
+  public scrappedJob: ScrappedJob = {
+    title: "",
+    company: "",
+    url: "",
+    description: "",
+  };
+
+  public abstract provider: string;
+
+  public abstract pageChanged(): Promise<void>;
+
+  public abstract getJobDetails(): Promise<ScrappedJob>;
 
   abstract applyToJob(): Promise<boolean>;
+
+  checkJob() {
+    console.log("Checking job...", this.scrappedJob);
+  }
+
+  saveJob() {
+    
+  }
 }

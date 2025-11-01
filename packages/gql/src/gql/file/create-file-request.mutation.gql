@@ -1,0 +1,16 @@
+mutation CreateUploadFile($createFileRequest: CreateFileRequest!) {
+  createUploadFile(createFileRequest: $createFileRequest) {
+    url
+    file {
+      createdAt
+      errorMessage
+      id
+      mime
+      name
+      size
+      status
+      type
+      updatedAt
+    }
+  }
+}
